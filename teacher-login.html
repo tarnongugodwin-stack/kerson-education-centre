@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Teacher Login | KERSON Education Center</title>
+
+    <link rel="stylesheet" href="Css/style.css">
+
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: #f4f7fb;
+        }
+
+        .login-header {
+            background: #123b72;
+            padding: 20px 5%;
+        }
+
+        .login-header a {
+            color: white;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .login-header span {
+            color: #f4b400;
+        }
+
+        .login-container {
+            width: 92%;
+            max-width: 430px;
+            margin: 50px auto;
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .login-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 20px;
+            display: grid;
+            place-items: center;
+            background: #e9f0fb;
+            color: #123b72;
+            border-radius: 50%;
+            font-size: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #10243e;
+        }
+
+        .description {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #10243e;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        input:focus {
+            outline: 2px solid #123b72;
+            border-color: transparent;
+        }
+
+        .password-wrapper {
+            display: flex;
+            gap: 8px;
+        }
+
+        .password-wrapper input {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .show-password {
+            padding: 0 10px;
+            border: none;
+            border-radius: 6px;
+            background: #e9f0fb;
+            color: #123b72;
+            cursor: pointer;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 14px;
+            background: #123b72;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .login-button:hover {
+            background: #0c2c57;
+        }
+
+        .login-message {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .back-home {
+            display: block;
+            text-align: center;
+            margin-top: 22px;
+            color: #123b72;
+            font-weight: bold;
+        }
+
+        .footer {
+            margin-top: auto;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 25px 20px;
+                margin: 35px auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="login-header">
+        <a href="index.html">
+            KERSON <span>EDUCATION CENTER</span>
+        </a>
+    </header>
+
+    <main class="login-container">
+
+        <div class="login-icon">👨‍🏫</div>
+
+        <h1>Teacher Login</h1>
+
+        <p class="description">
+            Welcome, teacher. Sign in to access your teaching portal.
+        </p>
+
+        <form id="teacherLoginForm">
+
+            <div class="form-group">
+                <label for="teacherId">Teacher ID or Email</label>
+
+                <input
+                    type="text"
+                    id="teacherId"
+                    name="teacherId"
+                    placeholder="Enter your teacher ID or email"
+                    autocomplete="username"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+
+                <div class="password-wrapper">
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="show-password"
+                        id="togglePassword"
+                    >
+                        Show
+                    </button>
+                </div>
+            </div>
+
+            <button type="submit" class="login-button">
+                Login to Teacher Portal
+            </button>
+
+            <p
+                id="loginMessage"
+                class="login-message"
+                role="status"
+                aria-live="polite"
+            ></p>
+
+        </form>
+
+        <a href="index.html" class="back-home">
+            ← Back to Homepage
+        </a>
+
+    </main>
+
+    <footer class="footer">
+        <p>
+            &copy; <span id="year"></span>
+            KERSON Education Center, Atonko Gboko.
+        </p>
+    </footer>
+
+    <script>
+        document.getElementById("year").textContent =
+            new Date().getFullYear();
+
+        const passwordInput = document.getElementById("password");
+        const togglePassword = document.getElementById("togglePassword");
+
+        togglePassword.addEventListener("click", function () {
+            const isHidden = passwordInput.type === "password";
+
+            passwordInput.type = isHidden ? "text" : "password";
+            togglePassword.textContent = isHidden ? "Hide" : "Show";
+        });
+
+        document.getElementById("teacherLoginForm")
+            .addEventListener("submit", function (event) {
+                event.preventDefault();
+
+                const message = document.getElementById("loginMessage");
+
+                message.textContent =
+                    "Teacher authentication is not connected yet. Please try again after setup.";
+
+                message.style.color = "#b45309";
+            });
+    </script>
+
+</body>
+</html>
