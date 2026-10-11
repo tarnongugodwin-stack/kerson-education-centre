@@ -504,22 +504,52 @@ function loadStudents() {
     }
 
 function loadSubjects() {
-    const selectedClass = classSelect.value;
-    const subjects = getSubjects().filter(function(subject) {
-        return getClassName(subject) === selectedClass;
-    });
+    const selectedClass = classSelect.value.trim().toLowerCase();
 
-    subjectSelect.innerHTML = '<option value="">Choose Subject</option>';
+    const allSubjects = getSubjects();
+
+    subjectSelect.innerHTML =
+        '<option value="">Choose Subject</option>';
+
+    const subjects = allSubjects.filter(function(subject) {
+        const subjectClass =
+            subject.className ||
+            subject.class ||
+            subject.classLevel ||
+            subject.level ||
+            subject.studentClass ||
+            "";
+
+        return subjectClass.trim().toLowerCase() === selectedClass;
+    });
 
     subjects.forEach(function(subject) {
-        const code = getSubjectCode(subject);
-        const title = getSubjectTitle(subject);
+        const code =
+            subject.subjectCode ||
+            subject.code ||
+            "";
+
+        const title =
+            subject.subjectTitle ||
+            subject.title ||
+            subject.subjectName ||
+            subject.name ||
+            "";
 
         const option = document.createElement("option");
+
         option.value = String(code || title);
         option.textContent = title + (code ? " (" + code + ")" : "");
+
         subjectSelect.appendChild(option);
     });
+
+    if (subjects.length === 0 && selectedClass) {
+        const option = document.createElement("option");
+        option.value = "";
+        option.textContent = "No subjects found for this class";
+        subjectSelect.appendChild(option);
+    }
 }
 
 classSelect.addEventListener("change", function() {
