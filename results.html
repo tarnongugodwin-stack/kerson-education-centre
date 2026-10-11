@@ -437,7 +437,12 @@ function getSubjectTitle(subject) {
 }
 
 function getStudentClass(student) {
-    return student.className || student.class || "";
+    return student.className ||
+           student.class ||
+           student.classLevel ||
+           student.studentClass ||
+           student.level ||
+           "";
 }
 
 function saveResults() {
