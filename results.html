@@ -21,16 +21,17 @@ body {
 header {
     background: #092c5c;
     color: white;
-    padding: 20px;
+    padding: 22px 12px;
     text-align: center;
 }
 
 header h1 {
     font-size: 24px;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 
 header p {
+    margin-top: 5px;
     font-size: 14px;
 }
 
@@ -41,10 +42,10 @@ nav {
 }
 
 nav a {
+    display: inline-block;
     color: white;
     text-decoration: none;
-    margin: 5px 10px;
-    display: inline-block;
+    margin: 5px 9px;
     font-size: 14px;
 }
 
@@ -54,7 +55,7 @@ nav a:hover {
 
 .container {
     width: 95%;
-    max-width: 1200px;
+    max-width: 1250px;
     margin: 25px auto;
 }
 
@@ -68,13 +69,22 @@ nav a:hover {
 
 h2 {
     color: #092c5c;
-    margin-bottom: 18px;
     font-size: 21px;
+    margin-bottom: 18px;
+}
+
+.notice {
+    background: #e8f2ff;
+    color: #124785;
+    padding: 13px;
+    border-radius: 5px;
+    line-height: 1.6;
+    margin-bottom: 18px;
 }
 
 .form-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 15px;
 }
 
@@ -94,24 +104,21 @@ input, select {
     padding: 11px;
     border: 1px solid #ccd5e0;
     border-radius: 5px;
-    font-size: 14px;
     background: white;
+    font-size: 14px;
 }
 
 input:focus, select:focus {
     outline: 2px solid #9bc4ff;
-    border-color: #124785;
 }
 
-button, .button {
-    display: inline-block;
+button {
     border: none;
     border-radius: 5px;
-    padding: 11px 16px;
+    padding: 11px 15px;
+    margin: 5px 4px 5px 0;
     cursor: pointer;
     font-size: 14px;
-    text-decoration: none;
-    margin: 4px 3px 4px 0;
 }
 
 .primary {
@@ -135,24 +142,24 @@ button, .button {
 }
 
 .search {
+    max-width: 450px;
     margin-bottom: 15px;
-    max-width: 400px;
 }
 
 .table-wrapper {
-    overflow-x: auto;
     width: 100%;
+    overflow-x: auto;
 }
 
 table {
     width: 100%;
+    min-width: 1100px;
     border-collapse: collapse;
-    min-width: 1050px;
 }
 
 th, td {
     border: 1px solid #e0e6ed;
-    padding: 11px;
+    padding: 10px;
     text-align: left;
     font-size: 13px;
 }
@@ -171,7 +178,6 @@ tbody tr:nth-child(even) {
     padding: 5px 9px;
     border-radius: 15px;
     font-weight: bold;
-    font-size: 12px;
 }
 
 .pass {
@@ -184,32 +190,29 @@ tbody tr:nth-child(even) {
     color: #a31515;
 }
 
-.notice {
-    padding: 12px;
-    border-radius: 5px;
-    margin-bottom: 15px;
-    background: #e8f2ff;
-    color: #124785;
-    line-height: 1.5;
+#message {
+    margin: 14px 0;
+    font-weight: bold;
+    line-height: 1.6;
 }
 
-#message {
-    margin: 12px 0;
-    font-weight: bold;
-    line-height: 1.5;
+#recordCounts {
+    line-height: 1.8;
+    margin-top: 10px;
+    color: #124785;
 }
 
 footer {
-    text-align: center;
-    padding: 20px;
     background: #092c5c;
     color: white;
+    text-align: center;
+    padding: 20px;
     margin-top: 30px;
 }
 
 @media (max-width: 800px) {
     .form-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
@@ -248,122 +251,120 @@ footer {
 
 <main class="container">
 
-    <section class="card">
-        <h2 id="formTitle">Enter Examination Result</h2>
+<section class="card">
+    <h2 id="formTitle">Enter Examination Result</h2>
 
-        <div class="notice">
-            <strong>Scoring system:</strong>
-            Continuous Assessment (CA) = 40 marks.
-            Examination = 60 marks.
-            Total = 100 marks.
-            The system calculates the total, grade and result status automatically.
-        </div>
+    <div class="notice">
+        <strong>Scoring:</strong> CA = 40 marks.
+        Examination = 60 marks.
+        Total = 100 marks.
+        Grade and result status are calculated automatically.
+    </div>
 
-        <form id="resultForm">
+    <div id="recordCounts"></div>
 
-            <div class="form-grid">
+    <form id="resultForm">
 
-                <div class="form-group">
-                    <label for="classSelect">Select Class</label>
-                    <select id="classSelect" required>
-                        <option value="">Choose Class</option>
-                    </select>
-                </div>
+        <div class="form-grid">
 
-                <div class="form-group">
-                    <label for="studentSelect">Select Student</label>
-                    <select id="studentSelect" required>
-                        <option value="">Choose Student</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="subjectSelect">Select Subject</label>
-                    <select id="subjectSelect" required>
-                        <option value="">Choose Subject</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="caScore">Continuous Assessment (0–40)</label>
-                    <input type="number" id="caScore"
-                           min="0" max="40" step="0.01"
-                           placeholder="Enter CA score" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="examScore">Examination Score (0–60)</label>
-                    <input type="number" id="examScore"
-                           min="0" max="60" step="0.01"
-                           placeholder="Enter exam score" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="term">Academic Term</label>
-                    <select id="term" required>
-                        <option value="">Choose Term</option>
-                        <option value="First Term">First Term</option>
-                        <option value="Second Term">Second Term</option>
-                        <option value="Third Term">Third Term</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="academicYear">Academic Year</label>
-                    <input type="text" id="academicYear"
-                           placeholder="e.g. 2026/2027" required>
-                </div>
-
+            <div class="form-group">
+                <label for="classSelect">Class</label>
+                <select id="classSelect" required>
+                    <option value="">Choose Class</option>
+                </select>
             </div>
 
-            <p id="message" aria-live="polite"></p>
+            <div class="form-group">
+                <label for="studentSelect">Student</label>
+                <select id="studentSelect" required>
+                    <option value="">Choose Student</option>
+                </select>
+            </div>
 
-            <button type="submit" class="primary" id="saveButton">
-                Save Result
-            </button>
+            <div class="form-group">
+                <label for="subjectSelect">Subject</label>
+                <select id="subjectSelect" required>
+                    <option value="">Choose Subject</option>
+                </select>
+            </div>
 
-            <button type="button" class="secondary"
-                    onclick="resetForm()">
-                Clear Form
-            </button>
+            <div class="form-group">
+                <label for="caScore">CA Score (0–40)</label>
+                <input type="number" id="caScore"
+                       min="0" max="40" step="0.01" required>
+            </div>
 
-        </form>
-    </section>
+            <div class="form-group">
+                <label for="examScore">Examination Score (0–60)</label>
+                <input type="number" id="examScore"
+                       min="0" max="60" step="0.01" required>
+            </div>
 
-    <section class="card">
-        <h2>Recorded Examination Results</h2>
+            <div class="form-group">
+                <label for="term">Academic Term</label>
+                <select id="term" required>
+                    <option value="">Choose Term</option>
+                    <option>First Term</option>
+                    <option>Second Term</option>
+                    <option>Third Term</option>
+                </select>
+            </div>
 
-        <input type="search" id="searchResults" class="search"
-               placeholder="Search student, admission number or subject...">
+            <div class="form-group">
+                <label for="academicYear">Academic Year</label>
+                <input type="text" id="academicYear"
+                       placeholder="2026/2027" required>
+            </div>
 
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>S/N</th>
-                        <th>Student Name</th>
-                        <th>Admission No.</th>
-                        <th>Class</th>
-                        <th>Subject</th>
-                        <th>CA / 40</th>
-                        <th>Exam / 60</th>
-                        <th>Total / 100</th>
-                        <th>Grade</th>
-                        <th>Status</th>
-                        <th>Term</th>
-                        <th>Academic Year</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-
-                <tbody id="resultsTable">
-                    <tr>
-                        <td colspan="13">Loading results...</td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
-    </section>
+
+        <p id="message" aria-live="polite"></p>
+
+        <button type="submit" class="primary" id="saveButton">
+            Save Result
+        </button>
+
+        <button type="button" class="secondary" onclick="resetForm()">
+            Clear Form
+        </button>
+
+    </form>
+</section>
+
+<section class="card">
+    <h2>Recorded Examination Results</h2>
+
+    <input type="search" id="searchResults" class="search"
+           placeholder="Search student, admission number or subject">
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>S/N</th>
+                    <th>Student</th>
+                    <th>Admission No.</th>
+                    <th>Class</th>
+                    <th>Subject</th>
+                    <th>CA</th>
+                    <th>Exam</th>
+                    <th>Total</th>
+                    <th>Grade</th>
+                    <th>Status</th>
+                    <th>Term</th>
+                    <th>Academic Year</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody id="resultsTable">
+                <tr>
+                    <td colspan="13">Loading results...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
 
 </main>
 
@@ -372,9 +373,9 @@ footer {
 </footer>
 
 <script>
-const STORAGE_KEY = "kersonResults";
+const RESULTS_KEY = "kersonResults";
 
-let results = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+let results = readStorage(RESULTS_KEY);
 let editingId = null;
 
 const form = document.getElementById("resultForm");
@@ -382,6 +383,27 @@ const classSelect = document.getElementById("classSelect");
 const studentSelect = document.getElementById("studentSelect");
 const subjectSelect = document.getElementById("subjectSelect");
 const message = document.getElementById("message");
+
+function readStorage(key) {
+    try {
+        const value = JSON.parse(localStorage.getItem(key) || "[]");
+        return Array.isArray(value) ? value : [];
+    } catch (error) {
+        return [];
+    }
+}
+
+function saveResults() {
+    localStorage.setItem(RESULTS_KEY, JSON.stringify(results));
+}
+
+function clean(value) {
+    return String(value ?? "").trim();
+}
+
+function normal(value) {
+    return clean(value).toLowerCase().replace(/\s+/g, " ");
+}
 
 function escapeHTML(value) {
     return String(value ?? "").replace(/[&<>"']/g, function(char) {
@@ -395,164 +417,199 @@ function escapeHTML(value) {
     });
 }
 
+/* Student records */
+
 function getStudents() {
-    return JSON.parse(localStorage.getItem("kersonStudents") || "[]");
+    return readStorage("kersonStudents");
 }
+
+function studentName(student) {
+    return clean(
+        student.fullName ||
+        student.fullname ||
+        student.studentName ||
+        student.name
+    );
+}
+
+function studentAdmission(student) {
+    return clean(
+        student.admissionNo ||
+        student.admissionNumber ||
+        student.matricNumber ||
+        student.matric ||
+        student.studentId ||
+        student.id
+    );
+}
+
+function studentClass(student) {
+    return clean(
+        student.className ||
+        student.class ||
+        student.classLevel ||
+        student.studentClass ||
+        student.level
+    );
+}
+
+/* Class records */
 
 function getClasses() {
-    return JSON.parse(localStorage.getItem("kersonClasses") || "[]");
+    return readStorage("kersonClasses");
 }
+
+function className(item) {
+    return clean(
+        item.className ||
+        item.class ||
+        item.classLevel ||
+        item.level ||
+        item.name
+    );
+}
+
+/* Subject records */
 
 function getSubjects() {
-    return JSON.parse(localStorage.getItem("kersonSubjects") || "[]");
+    return readStorage("kersonSubjects");
 }
 
-function getStudentName(student) {
-    return student.fullName || student.name || student.studentName || "";
+function subjectCode(subject) {
+    return clean(
+        subject.subjectCode ||
+        subject.code
+    );
 }
 
-function getAdmissionNo(student) {
-    return student.admissionNo ||
-           student.admissionNumber ||
-           student.matricNumber ||
-           student.id || "";
+function subjectName(subject) {
+    return clean(
+        subject.subjectName ||
+        subject.subjectTitle ||
+        subject.title ||
+        subject.name
+    );
 }
 
-
-function getClassName(item) {
-    return item.subjectClass ||
-           item.className ||
-           item.class ||
-           item.classLevel ||
-           item.level ||
-           item.name ||
-           "";
-}
-function getSubjectCode(subject) {
-    return subject.subjectCode || subject.code || "";
+function subjectClass(subject) {
+    return clean(
+        subject.subjectClass ||
+        subject.className ||
+        subject.class ||
+        subject.classLevel ||
+        subject.level ||
+        subject.studentClass
+    );
 }
 
-function getSubjectTitle(subject) {
-    return subject.subjectName ||
-           subject.subjectTitle ||
-           subject.title ||
-           subject.name ||
-           "";
-    }
+/* Dropdowns */
 
-function getStudentClass(student) {
-    return student.className ||
-           student.class ||
-           student.classLevel ||
-           student.studentClass ||
-           student.level ||
-           "";
-}
-
-function saveResults() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(results));
-}
-
-function showMessage(text, success) {
-    message.textContent = text;
-    message.style.color = success ? "#176b32" : "#b42318";
+function addOption(select, value, label) {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = label;
+    select.appendChild(option);
 }
 
 function loadClasses() {
-    const classes = getClasses();
-    const currentValue = classSelect.value;
+    const previous = classSelect.value;
+    const names = new Set();
 
-    classSelect.innerHTML = '<option value="">Choose Class</option>';
-
-    classes.forEach(function(item) {
-        const name = getClassName(item);
-        if (!name) return;
-
-        const option = document.createElement("option");
-        option.value = name;
-        option.textContent = name;
-        classSelect.appendChild(option);
+    getClasses().forEach(function(item) {
+        const name = className(item);
+        if (name) names.add(name);
     });
 
-    if (classes.length === 0) {
-        showMessage(
-            "No classes found. Register a class in Class Management first.",
-            false
-        );
+    getStudents().forEach(function(student) {
+        const name = studentClass(student);
+        if (name) names.add(name);
+    });
+
+    getSubjects().forEach(function(subject) {
+        const name = subjectClass(subject);
+        if (name) names.add(name);
+    });
+
+    classSelect.innerHTML = "";
+    addOption(classSelect, "", "Choose Class");
+
+    Array.from(names).sort().forEach(function(name) {
+        addOption(classSelect, name, name);
+    });
+
+    if (names.has(previous)) {
+        classSelect.value = previous;
     }
 
-    if (currentValue) classSelect.value = currentValue;
+    loadStudents();
+    loadSubjects();
 }
 
 function loadStudents() {
-    const selectedClass = classSelect.value.trim().toLowerCase();
+    const selected = normal(classSelect.value);
 
-    const students = getStudents().filter(function(student) {
-        return getStudentClass(student).trim().toLowerCase()
-            === selectedClass;
+    studentSelect.innerHTML = "";
+    addOption(studentSelect, "", "Choose Student");
+
+    if (!selected) return;
+
+    const matching = getStudents().filter(function(student) {
+        return normal(studentClass(student)) === selected;
     });
 
-    studentSelect.innerHTML =
-        '<option value="">Choose Student</option>';
+    matching.forEach(function(student) {
+        const admission = studentAdmission(student);
+        const name = studentName(student);
 
-    students.forEach(function(student) {
-        const admission = getAdmissionNo(student);
-        const name = getStudentName(student);
+        if (!admission || !name) return;
 
-        const option = document.createElement("option");
-        option.value = String(admission);
-        option.textContent = name + " (" + admission + ")";
-
-        studentSelect.appendChild(option);
+        addOption(
+            studentSelect,
+            admission,
+            name + " (" + admission + ")"
+        );
     });
+
+    if (matching.length === 0) {
+        addOption(studentSelect, "", "No students found in this class");
     }
+}
 
 function loadSubjects() {
-    const selectedClass = classSelect.value.trim().toLowerCase();
+    const selected = normal(classSelect.value);
 
-    const allSubjects = getSubjects();
+    subjectSelect.innerHTML = "";
+    addOption(subjectSelect, "", "Choose Subject");
 
-    subjectSelect.innerHTML =
-        '<option value="">Choose Subject</option>';
+    if (!selected) return;
 
-    const subjects = allSubjects.filter(function(subject) {
-        const subjectClass =
-            subject.className ||
-            subject.class ||
-            subject.classLevel ||
-            subject.level ||
-            subject.studentClass ||
-            "";
+    const all = getSubjects();
 
-        return subjectClass.trim().toLowerCase() === selectedClass;
+    const matching = all.filter(function(subject) {
+        return normal(subjectClass(subject)) === selected;
     });
 
-    subjects.forEach(function(subject) {
-        const code =
-            subject.subjectCode ||
-            subject.code ||
-            "";
+    matching.forEach(function(subject) {
+        const code = subjectCode(subject);
+        const name = subjectName(subject);
 
-        const title =
-            subject.subjectTitle ||
-            subject.title ||
-            subject.subjectName ||
-            subject.name ||
-            "";
+        if (!name) return;
 
-        const option = document.createElement("option");
-
-        option.value = String(code || title);
-        option.textContent = title + (code ? " (" + code + ")" : "");
-
-        subjectSelect.appendChild(option);
+        addOption(
+            subjectSelect,
+            code || name,
+            name + (code ? " (" + code + ")" : "")
+        );
     });
 
-    if (subjects.length === 0 && selectedClass) {
-        const option = document.createElement("option");
-        option.value = "";
-        option.textContent = "No subjects found for this class";
-        subjectSelect.appendChild(option);
+    if (matching.length === 0) {
+        addOption(
+            subjectSelect,
+            "",
+            all.length
+                ? "No subjects assigned to this class"
+                : "No subjects registered"
+        );
     }
 }
 
@@ -560,6 +617,8 @@ classSelect.addEventListener("change", function() {
     loadStudents();
     loadSubjects();
 });
+
+/* Grading */
 
 function calculateGrade(total) {
     if (total >= 70) return "A";
@@ -570,41 +629,156 @@ function calculateGrade(total) {
     return "F";
 }
 
+function showMessage(text, success) {
+    message.textContent = text;
+    message.style.color = success ? "#176b32" : "#b42318";
+}
+
 function findStudent(admission) {
     return getStudents().find(function(student) {
-        return String(getAdmissionNo(student)) === String(admission);
+        return studentAdmission(student) === String(admission);
     });
 }
 
 function findSubject(code) {
     return getSubjects().find(function(subject) {
-        return String(
-            subject.subjectCode ||
-            subject.code ||
-            subject.subjectName ||
-            ""
-        ) === String(code);
+        return (subjectCode(subject) || subjectName(subject))
+            === String(code);
     });
 }
 
-function renderResults(searchTerm) {
+/* Save and update results */
+
+form.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const selectedClass = classSelect.value;
+    const admission = studentSelect.value;
+    const selectedSubject = subjectSelect.value;
+    const ca = Number(document.getElementById("caScore").value);
+    const exam = Number(document.getElementById("examScore").value);
+    const term = document.getElementById("term").value;
+    const year = document.getElementById("academicYear").value.trim();
+
+    if (!selectedClass || !admission || !selectedSubject || !term || !year) {
+        showMessage("Please select a class, student, subject and term.", false);
+        return;
+    }
+
+    if (!Number.isFinite(ca) || ca < 0 || ca > 40) {
+        showMessage("CA must be between 0 and 40.", false);
+        return;
+    }
+
+    if (!Number.isFinite(exam) || exam < 0 || exam > 60) {
+        showMessage("Examination score must be between 0 and 60.", false);
+        return;
+    }
+
+    const student = findStudent(admission);
+    const subject = findSubject(selectedSubject);
+
+    if (!student || !subject) {
+        showMessage(
+            "The selected student or subject could not be found. Refresh and try again.",
+            false
+        );
+        return;
+    }
+
+    if (normal(studentClass(student)) !== normal(selectedClass)) {
+        showMessage("The selected student does not belong to this class.", false);
+        return;
+    }
+
+    if (normal(subjectClass(subject)) !== normal(selectedClass)) {
+        showMessage("The selected subject is not assigned to this class.", false);
+        return;
+    }
+
+    const total = Math.round((ca + exam) * 100) / 100;
+
+    const duplicate = results.some(function(item) {
+        return item.id !== editingId &&
+            String(item.admissionNo) === admission &&
+            String(item.subjectCode) === selectedSubject &&
+            item.term === term &&
+            item.academicYear === year;
+    });
+
+    if (duplicate) {
+        showMessage(
+            "This student already has a result for that subject, term and academic year.",
+            false
+        );
+        return;
+    }
+
+    const record = {
+        id: editingId || (
+            Date.now().toString() +
+            Math.random().toString(36).slice(2, 8)
+        ),
+        studentName: studentName(student),
+        admissionNo: studentAdmission(student),
+        className: selectedClass,
+        subjectCode: subjectCode(subject) || subjectName(subject),
+        subjectTitle: subjectName(subject),
+        caScore: ca,
+        examScore: exam,
+        total: total,
+        grade: calculateGrade(total),
+        status: total >= 40 ? "PASS" : "FAIL",
+        term: term,
+        academicYear: year
+    };
+
+    if (editingId) {
+        const index = results.findIndex(function(item) {
+            return item.id === editingId;
+        });
+
+        if (index >= 0) results[index] = record;
+
+        showMessage("Result updated successfully.", true);
+    } else {
+        results.push(record);
+        showMessage("Result saved successfully.", true);
+    }
+
+    saveResults();
+    renderResults(document.getElementById("searchResults").value);
+
+    form.reset();
+    editingId = null;
+
+    document.getElementById("formTitle").textContent =
+        "Enter Examination Result";
+    document.getElementById("saveButton").textContent = "Save Result";
+
+    loadClasses();
+});
+
+/* Results table */
+
+function renderResults(searchValue) {
     const tbody = document.getElementById("resultsTable");
-    const query = (searchTerm || "").toLowerCase();
+    const query = normal(searchValue);
 
-    const filtered = results.filter(function(result) {
+    const filtered = results.filter(function(item) {
         const text = [
-            result.studentName,
-            result.admissionNo,
-            result.className,
-            result.subjectTitle,
-            result.subjectCode,
-            result.term,
-            result.academicYear,
-            result.grade,
-            result.status
-        ].join(" ").toLowerCase();
+            item.studentName,
+            item.admissionNo,
+            item.className,
+            item.subjectTitle,
+            item.subjectCode,
+            item.term,
+            item.academicYear,
+            item.grade,
+            item.status
+        ].join(" ");
 
-        return text.includes(query);
+        return normal(text).includes(query);
     });
 
     if (filtered.length === 0) {
@@ -613,184 +787,85 @@ function renderResults(searchTerm) {
         return;
     }
 
-    tbody.innerHTML = filtered.map(function(result, index) {
-        const statusClass = result.status === "PASS" ? "pass" : "fail";
+    tbody.innerHTML = filtered.map(function(item, index) {
+        const badge = item.status === "PASS" ? "pass" : "fail";
 
         return `
         <tr>
             <td>${index + 1}</td>
-            <td>${escapeHTML(result.studentName)}</td>
-            <td>${escapeHTML(result.admissionNo)}</td>
-            <td>${escapeHTML(result.className)}</td>
-            <td>${escapeHTML(result.subjectTitle)}</td>
-            <td>${Number(result.caScore).toFixed(2)}</td>
-            <td>${Number(result.examScore).toFixed(2)}</td>
-            <td><strong>${Number(result.total).toFixed(2)}</strong></td>
-            <td>${escapeHTML(result.grade)}</td>
-            <td><span class="badge ${statusClass}">
-                ${escapeHTML(result.status)}
+            <td>${escapeHTML(item.studentName)}</td>
+            <td>${escapeHTML(item.admissionNo)}</td>
+            <td>${escapeHTML(item.className)}</td>
+            <td>${escapeHTML(item.subjectTitle)}</td>
+            <td>${Number(item.caScore).toFixed(2)}</td>
+            <td>${Number(item.examScore).toFixed(2)}</td>
+            <td><strong>${Number(item.total).toFixed(2)}</strong></td>
+            <td>${escapeHTML(item.grade)}</td>
+            <td><span class="badge ${badge}">
+                ${escapeHTML(item.status)}
             </span></td>
-            <td>${escapeHTML(result.term)}</td>
-            <td>${escapeHTML(result.academicYear)}</td>
+            <td>${escapeHTML(item.term)}</td>
+            <td>${escapeHTML(item.academicYear)}</td>
             <td>
                 <button class="edit"
-                    onclick="editResult('${result.id}')">Edit</button>
+                    onclick="editResult('${item.id}')">Edit</button>
                 <button class="delete"
-                    onclick="deleteResult('${result.id}')">Delete</button>
+                    onclick="deleteResult('${item.id}')">Delete</button>
             </td>
         </tr>`;
     }).join("");
 }
 
-form.addEventListener("submit", function(event) {
-    event.preventDefault();
-
-    const className = classSelect.value;
-    const admissionNo = studentSelect.value;
-    const subjectCode = subjectSelect.value;
-    const caScore = Number(document.getElementById("caScore").value);
-    const examScore = Number(document.getElementById("examScore").value);
-    const term = document.getElementById("term").value;
-    const academicYear = document.getElementById("academicYear").value.trim();
-
-    if (!className || !admissionNo || !subjectCode || !term || !academicYear) {
-        showMessage("Please complete all required fields.", false);
-        return;
-    }
-
-    if (!Number.isFinite(caScore) || caScore < 0 || caScore > 40) {
-        showMessage("CA score must be between 0 and 40.", false);
-        return;
-    }
-
-    if (!Number.isFinite(examScore) || examScore < 0 || examScore > 60) {
-        showMessage("Examination score must be between 0 and 60.", false);
-        return;
-    }
-
-    const student = findStudent(admissionNo);
-    const subject = findSubject(subjectCode);
-
-    if (!student || !subject) {
-        showMessage(
-            "Student or subject record not found. Check your existing records.",
-            false
-        );
-        return;
-    }
-
-    const studentName = getStudentName(student);
-    const subjectTitle = getSubjectTitle(subject);
-    const total = Math.round((caScore + examScore) * 100) / 100;
-    const grade = calculateGrade(total);
-    const status = total >= 40 ? "PASS" : "FAIL";
-
-    const duplicate = results.some(function(item) {
-        return item.id !== editingId &&
-            String(item.admissionNo) === String(admissionNo) &&
-            String(item.subjectCode) === String(subjectCode) &&
-            item.term === term &&
-            item.academicYear === academicYear;
-    });
-
-    if (duplicate) {
-        showMessage(
-            "A result already exists for this student, subject, term and academic year.",
-            false
-        );
-        return;
-    }
-
-    const result = {
-        id: editingId || (
-            Date.now().toString() + Math.random().toString(36).slice(2, 8)
-        ),
-        studentName: studentName,
-        admissionNo: admissionNo,
-        className: className,
-        subjectCode: subjectCode,
-        subjectTitle: subjectTitle,
-        caScore: caScore,
-        examScore: examScore,
-        total: total,
-        grade: grade,
-        status: status,
-        term: term,
-        academicYear: academicYear
-    };
-
-    if (editingId) {
-        const index = results.findIndex(function(item) {
-            return item.id === editingId;
-        });
-
-        if (index !== -1) results[index] = result;
-
-        showMessage("Examination result updated successfully.", true);
-    } else {
-        results.push(result);
-        showMessage("Examination result saved successfully.", true);
-    }
-
-    saveResults();
-    renderResults(document.getElementById("searchResults").value);
-
-    form.reset();
-    editingId = null;
-    document.getElementById("formTitle").textContent =
-        "Enter Examination Result";
-    document.getElementById("saveButton").textContent = "Save Result";
-
-    studentSelect.innerHTML = '<option value="">Choose Student</option>';
-    subjectSelect.innerHTML = '<option value="">Choose Subject</option>';
-});
-
 function editResult(id) {
-    const result = results.find(function(item) {
-        return item.id === id;
+    const item = results.find(function(record) {
+        return record.id === id;
     });
 
-    if (!result) return;
+    if (!item) return;
 
     editingId = id;
-    classSelect.value = result.className;
+
+    classSelect.value = item.className;
     loadStudents();
     loadSubjects();
 
-    studentSelect.value = String(result.admissionNo);
-    subjectSelect.value = String(result.subjectCode);
+    studentSelect.value = item.admissionNo;
+    subjectSelect.value = item.subjectCode;
 
-    document.getElementById("caScore").value = result.caScore;
-    document.getElementById("examScore").value = result.examScore;
-    document.getElementById("term").value = result.term;
-    document.getElementById("academicYear").value = result.academicYear;
+    document.getElementById("caScore").value = item.caScore;
+    document.getElementById("examScore").value = item.examScore;
+    document.getElementById("term").value = item.term;
+    document.getElementById("academicYear").value = item.academicYear;
 
-    document.getElementById("formTitle").textContent = "Edit Examination Result";
+    document.getElementById("formTitle").textContent =
+        "Edit Examination Result";
     document.getElementById("saveButton").textContent = "Update Result";
 
-    showMessage("Edit the fields and tap Update Result.", true);
+    showMessage("Make your changes and tap Update Result.", true);
     window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function deleteResult(id) {
-    const result = results.find(function(item) {
-        return item.id === id;
+    const item = results.find(function(record) {
+        return record.id === id;
     });
 
-    if (!result) return;
+    if (!item) return;
 
-    if (confirm("Delete the result for " + result.studentName +
-        " - " + result.subjectTitle + "?")) {
-
-        results = results.filter(function(item) {
-            return item.id !== id;
+    if (confirm(
+        "Delete the result for " + item.studentName +
+        " - " + item.subjectTitle + "?"
+    )) {
+        results = results.filter(function(record) {
+            return record.id !== id;
         });
-
-        if (editingId === id) resetForm();
 
         saveResults();
         renderResults(document.getElementById("searchResults").value);
+
         showMessage("Result deleted successfully.", true);
+
+        if (editingId === id) resetForm();
     }
 }
 
@@ -802,19 +877,31 @@ function resetForm() {
         "Enter Examination Result";
     document.getElementById("saveButton").textContent = "Save Result";
 
-    studentSelect.innerHTML = '<option value="">Choose Student</option>';
-    subjectSelect.innerHTML = '<option value="">Choose Subject</option>';
-
     message.textContent = "";
+
+    loadClasses();
 }
 
-document.getElementById("searchResults").addEventListener("input", function() {
-    renderResults(this.value);
-});
+document.getElementById("searchResults").addEventListener(
+    "input",
+    function() {
+        renderResults(this.value);
+    }
+);
 
+/* Show how many records are available */
+
+function showRecordCounts() {
+    document.getElementById("recordCounts").textContent =
+        "Students registered: " + getStudents().length +
+        " | Classes registered: " + getClasses().length +
+        " | Subjects registered: " + getSubjects().length;
+}
+
+showRecordCounts();
 loadClasses();
 renderResults("");
-  </script>
+</script>
 
 </body>
-  </html>
+</html>
