@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Class Management | KERSON Education Center</title>
+
+    <link rel="stylesheet" href="Css/style.css">
+
+    <style>
+        body {
+            background: #f3f6fb;
+            color: #334155;
+        }
+
+        .page-header {
+            background: #123b72;
+            color: white;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .page-header h2 {
+            color: white;
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        .page-header span {
+            color: #f4b400;
+        }
+
+        .page-header a {
+            color: white;
+            font-weight: bold;
+        }
+
+        .container-main {
+            width: 92%;
+            max-width: 1200px;
+            margin: 35px auto;
+        }
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+        .page-title h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .page-title p {
+            color: #64748b;
+        }
+
+        .panel {
+            background: white;
+            padding: 25px;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .panel h2 {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+        }
+
+        .class-form {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+            color: #10243e;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 16px;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: 2px solid #123b72;
+            border-color: transparent;
+        }
+
+        .form-actions {
+            grid-column: 1 / -1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .button {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .primary {
+            background: #123b72;
+            color: white;
+        }
+
+        .secondary {
+            background: #e2e8f0;
+            color: #10243e;
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .toolbar input {
+            width: 100%;
+            max-width: 400px;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        .count {
+            color: #123b72;
+            font-weight: bold;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 750px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 13px 10px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background: #edf3fc;
+            color: #10243e;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 7px;
+        }
+
+        .action-buttons button {
+            padding: 7px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .edit-button {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .delete-button {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .message {
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #123b72;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 25px;
+            color: #64748b;
+        }
+
+        @media (max-width: 650px) {
+            .class-form {
+                grid-template-columns: 1fr;
+            }
+
+            .container-main {
+                margin-top: 22px;
+            }
+
+            .panel {
+                padding: 18px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .form-actions button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="page-header">
+        <h2>KERSON <span>CLASS MANAGEMENT</span></h2>
+        <a href="admin-dashboard.html">← Admin Dashboard</a>
+    </header>
+
+    <main class="container-main">
+
+        <a href="admin-dashboard.html" class="back-link">
+            ← Back to Dashboard
+        </a>
+
+        <div class="page-title">
+            <h1>Class Management</h1>
+            <p>Create classes and assign teachers and classrooms.</p>
+        </div>
+
+        <section class="panel">
+
+            <h2 id="formTitle">Create New Class</h2>
+
+            <p id="formMessage" class="message" role="status"></p>
+
+            <form id="classForm" class="class-form">
+
+                <div class="form-group">
+                    <label for="className">Class Name *</label>
+
+                    <select id="className" required>
+                        <option value="">Select class</option>
+                        <option value="Nursery 1">Nursery 1</option>
+                        <option value="Nursery 2">Nursery 2</option>
+                        <option value="Nursery 3">Nursery 3</option>
+                        <option value="Primary 1">Primary 1</option>
+                        <option value="Primary 2">Primary 2</option>
+                        <option value="Primary 3">Primary 3</option>
+                        <option value="Primary 4">Primary 4</option>
+                        <option value="Primary 5">Primary 5</option>
+                        <option value="Primary 6">Primary 6</option>
+                        <option value="JSS 1">JSS 1</option>
+                        <option value="JSS 2">JSS 2</option>
+                        <option value="JSS 3">JSS 3</option>
+                        <option value="SS 1">SS 1</option>
+                        <option value="SS 2">SS 2</option>
+                        <option value="SS 3">SS 3</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="classTeacher">Class Teacher</label>
+
+                    <select id="classTeacher">
+                        <option value="">Select teacher</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="roomNumber">Classroom / Room Number</label>
+
+                    <input
+                        type="text"
+                        id="roomNumber"
+                        placeholder="e.g. Block A, Room 1"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="academicYear">Academic Year *</label>
+
+                    <input
+                        type="text"
+                        id="academicYear"
+                        placeholder="e.g. 2026/2027"
+                        required
+                    >
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="button primary" id="saveButton">
+                        Create Class
+                    </button>
+
+                    <button
+                        type="button"
+                        class="button secondary"
+                        id="cancelButton"
+                        hidden
+                    >
+                        Cancel Edit
+                    </button>
+
+                    <button type="reset" class="button secondary" id="clearButton">
+                        Clear Form
+                    </button>
+                </div>
+
+            </form>
+
+        </section>
+
+        <section class="panel">
+
+            <h2>Registered Classes</h2>
+
+            <div class="toolbar">
+                <input
+                    type="search"
+                    id="classSearch"
+                    placeholder="Search by class, teacher or academic year..."
+                    aria-label="Search classes"
+                >
+
+                <span class="count" id="classCount">
+                    Total Classes: 0
+                </span>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Class Name</th>
+                            <th>Class Teacher</th>
+                            <th>Room Number</th>
+                            <th>Academic Year</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="classesTable"></tbody>
+                </table>
+            </div>
+
+            <p id="emptyMessage">No classes created yet.</p>
+
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        &copy; <span id="year"></span>
+        KERSON Education Center, Atonko Gboko.
+    </footer>
+
+    <script>
+        document.getElementById("year").textContent =
+            new Date().getFullYear();
+
+        const form = document.getElementById("classForm");
+        const table = document.getElementById("classesTable");
+        const searchInput = document.getElementById("classSearch");
+        const countLabel = document.getElementById("classCount");
+        const emptyMessage = document.getElementById("emptyMessage");
+        const formMessage = document.getElementById("formMessage");
+        const teacherSelect = document.getElementById("classTeacher");
+
+        let classes = [];
+        let teachers = [];
+        let editingId = null;
+
+        try {
+            const savedClasses = JSON.parse(
+                localStorage.getItem("kersonClasses") || "[]"
+            );
+
+            classes = Array.isArray(savedClasses) ? savedClasses : [];
+        } catch (error) {
+            classes = [];
+        }
+
+        try {
+            const savedTeachers = JSON.parse(
+                localStorage.getItem("kersonTeachers") || "[]"
+            );
+
+            teachers = Array.isArray(savedTeachers) ? savedTeachers : [];
+        } catch (error) {
+            teachers = [];
+        }
+
+        function escapeHTML(value) {
+            return String(value ?? "").replace(/[&<>"']/g, function (char) {
+                return {
+                    "&": "&amp;",
+                    "<": "&lt;",
+                    ">": "&gt;",
+                    '"': "&quot;",
+                    "'": "&#39;"
+                }[char];
+            });
+        }
+
+        function populateTeachers(selectedId = "") {
+            teacherSelect.innerHTML =
+                '<option value="">Select teacher</option>';
+
+            teachers.forEach(function (teacher) {
+                const option = document.createElement("option");
+
+                option.value = teacher.id;
+                option.textContent =
+                    teacher.fullName + " (" + teacher.teacherId + ")";
+
+                option.selected = teacher.id === selectedId;
+
+                teacherSelect.appendChild(option);
+            });
+        }
+
+        function getTeacherName(teacherId) {
+            const teacher = teachers.find(function (item) {
+                return item.id === teacherId;
+            });
+
+            return teacher ? teacher.fullName : "Not assigned";
+        }
+
+        function saveClasses() {
+            try {
+                localStorage.setItem(
+                    "kersonClasses",
+                    JSON.stringify(classes)
+                );
+
+                return true;
+            } catch (error) {
+                alert("Unable to save classes in this browser.");
+                return false;
+            }
+        }
+
+        function renderClasses() {
+            const query = searchInput.value.trim().toLowerCase();
+
+            const filtered = classes.filter(function (item) {
+                return [
+                    item.className,
+                    getTeacherName(item.classTeacherId),
+                    item.roomNumber,
+                    item.academicYear
+                ].some(function (value) {
+                    return String(value || "").toLowerCase().includes(query);
+                });
+            });
+
+            table.innerHTML = filtered.map(function (item) {
+                return `
+                    <tr>
+                        <td>${escapeHTML(item.className)}</td>
+                        <td>${escapeHTML(getTeacherName(item.classTeacherId))}</td>
+                        <td>${escapeHTML(item.roomNumber || "—")}</td>
+                        <td>${escapeHTML(item.academicYear)}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button
+                                    type="button"
+                                    class="edit-button"
+                                    data-action="edit"
+                                    data-id="${escapeHTML(item.id)}"
+                                >Edit</button>
+
+                                <button
+                                    type="button"
+                                    class="delete-button"
+                                    data-action="delete"
+                                    data-id="${escapeHTML(item.id)}"
+                                >Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join("");
+
+            countLabel.textContent = "Total Classes: " + classes.length;
+
+            emptyMessage.hidden = filtered.length > 0;
+
+            if (classes.length === 0) {
+                emptyMessage.textContent = "No classes created yet.";
+            } else if (filtered.length === 0) {
+                emptyMessage.textContent = "No matching classes found.";
+            }
+        }
+
+        function resetForm() {
+            form.reset();
+            editingId = null;
+
+            document.getElementById("formTitle").textContent =
+                "Create New Class";
+
+            document.getElementById("saveButton").textContent =
+                "Create Class";
+
+            document.getElementById("cancelButton").hidden = true;
+            formMessage.textContent = "";
+            populateTeachers();
+        }
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const className =
+                document.getElementById("className").value;
+
+            const academicYear =
+                document.getElementById("academicYear").value.trim();
+
+            const duplicate = classes.some(function (item) {
+                return item.className.toLowerCase() === className.toLowerCase()
+                    && item.academicYear.toLowerCase() === academicYear.toLowerCase()
+                    && item.id !== editingId;
+            });
+
+            if (duplicate) {
+                formMessage.textContent =
+                    "This class already exists for that academic year.";
+
+                formMessage.style.color = "#b91c1c";
+                return;
+            }
+
+            const record = {
+                id: editingId || (
+                    window.crypto && crypto.randomUUID
+                        ? crypto.randomUUID()
+                        : String(Date.now()) + Math.random().toString(16).slice(2)
+                ),
+                className: className,
+                classTeacherId: teacherSelect.value,
+                roomNumber: document.getElementById("roomNumber").value.trim(),
+                academicYear: academicYear
+            };
+
+            const wasEditing = Boolean(editingId);
+
+            if (wasEditing) {
+                classes = classes.map(function (item) {
+                    return item.id === editingId ? record : item;
+                });
+            } else {
+                classes.push(record);
+            }
+
+            if (!saveClasses()) {
+                return;
+            }
+
+            renderClasses();
+            resetForm();
+
+            formMessage.textContent = wasEditing
+                ? "Class updated successfully."
+                : "Class created successfully.";
+
+            formMessage.style.color = "#15803d";
+        });
+
+        table.addEventListener("click", function (event) {
+            const button = event.target.closest("button[data-action]");
+
+            if (!button) return;
+
+            const item = classes.find(function (record) {
+                return record.id === button.dataset.id;
+            });
+
+            if (!item) return;
+
+            if (button.dataset.action === "edit") {
+                editingId = item.id;
+
+                document.getElementById("className").value =
+                    item.className;
+
+                populateTeachers(item.classTeacherId);
+
+                document.getElementById("roomNumber").value =
+                    item.roomNumber || "";
+
+                document.getElementById("academicYear").value =
+                    item.academicYear;
+
+                document.getElementById("formTitle").textContent =
+                    "Edit Class";
+
+                document.getElementById("saveButton").textContent =
+                    "Save Changes";
+
+                document.getElementById("cancelButton").hidden = false;
+
+                window.scrollTo({ top: 0, behavior: "smooth" });
+
+            } else if (button.dataset.action === "delete") {
+                if (!confirm(
+                    "Are you sure you want to delete this class?"
+                )) {
+                    return;
+                }
+
+                const previousClasses = classes;
+
+                classes = classes.filter(function (record) {
+                    return record.id !== item.id;
+                });
+
+                if (!saveClasses()) {
+                    classes = previousClasses;
+                    return;
+                }
+
+                renderClasses();
+                resetForm();
+            }
+        });
+
+        searchInput.addEventListener("input", renderClasses);
+
+        document.getElementById("cancelButton").addEventListener(
+            "click",
+            resetForm
+        );
+
+        document.getElementById("clearButton").addEventListener(
+            "click",
+            function () {
+                editingId = null;
+
+                document.getElementById("formTitle").textContent =
+                    "Create New Class";
+
+                document.getElementById("saveButton").textContent =
+                    "Create Class";
+
+                document.getElementById("cancelButton").hidden = true;
+                formMessage.textContent = "";
+                populateTeachers();
+            }
+        );
+
+        populateTeachers();
+        renderClasses();
+    </script>
+
+</body>
+  </html>
