@@ -420,7 +420,8 @@ function getAdmissionNo(student) {
 
 
 function getClassName(item) {
-    return item.className ||
+    return item.subjectClass ||
+           item.className ||
            item.class ||
            item.classLevel ||
            item.level ||
@@ -432,9 +433,12 @@ function getSubjectCode(subject) {
 }
 
 function getSubjectTitle(subject) {
-    return subject.subjectTitle || subject.title ||
-           subject.subjectName || subject.name || "";
-}
+    return subject.subjectName ||
+           subject.subjectTitle ||
+           subject.title ||
+           subject.name ||
+           "";
+    }
 
 function getStudentClass(student) {
     return student.className ||
@@ -574,8 +578,12 @@ function findStudent(admission) {
 
 function findSubject(code) {
     return getSubjects().find(function(subject) {
-        return String(getSubjectCode(subject) || getSubjectTitle(subject))
-            === String(code);
+        return String(
+            subject.subjectCode ||
+            subject.code ||
+            subject.subjectName ||
+            ""
+        ) === String(code);
     });
 }
 
