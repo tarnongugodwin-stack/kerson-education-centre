@@ -418,10 +418,15 @@ function getAdmissionNo(student) {
            student.id || "";
 }
 
-function getClassName(item) {
-    return item.className || item.class || item.name || "";
-}
 
+function getClassName(item) {
+    return item.className ||
+           item.class ||
+           item.classLevel ||
+           item.level ||
+           item.name ||
+           "";
+}
 function getSubjectCode(subject) {
     return subject.subjectCode || subject.code || "";
 }
