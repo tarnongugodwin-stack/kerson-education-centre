@@ -481,12 +481,15 @@ function loadClasses() {
 }
 
 function loadStudents() {
-    const selectedClass = classSelect.value;
+    const selectedClass = classSelect.value.trim().toLowerCase();
+
     const students = getStudents().filter(function(student) {
-        return getStudentClass(student) === selectedClass;
+        return getStudentClass(student).trim().toLowerCase()
+            === selectedClass;
     });
 
-    studentSelect.innerHTML = '<option value="">Choose Student</option>';
+    studentSelect.innerHTML =
+        '<option value="">Choose Student</option>';
 
     students.forEach(function(student) {
         const admission = getAdmissionNo(student);
@@ -495,9 +498,10 @@ function loadStudents() {
         const option = document.createElement("option");
         option.value = String(admission);
         option.textContent = name + " (" + admission + ")";
+
         studentSelect.appendChild(option);
     });
-}
+    }
 
 function loadSubjects() {
     const selectedClass = classSelect.value;
