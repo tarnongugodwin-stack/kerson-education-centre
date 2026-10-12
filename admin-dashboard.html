@@ -432,25 +432,73 @@
         </main>
     </div>
 
-    <script>
-        document.getElementById("year").textContent =
-            new Date().getFullYear();
+<script>
+document.getElementById("year").textContent =
+    new Date().getFullYear();
 
-        document.getElementById("currentDate").textContent =
-            new Date().toLocaleDateString("en-GB", {
-                day: "numeric",
-                month: "short",
-                year: "numeric"
-            });
+document.getElementById("currentDate").textContent =
+    new Date().toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+    });
 
-        document.getElementById("logoutBtn").addEventListener(
-            "click",
-            function (event) {
-                event.preventDefault();
-                window.location.href = "admin-login.html";
-            }
-        );
-    </script>
+function getRecords(key) {
+    try {
+        const data = JSON.parse(localStorage.getItem(key) || "[]");
+        return Array.isArray(data) ? data : [];
+    } catch (error) {
+        return [];
+    }
+}
 
+function updateDashboard() {
+    const students = getRecords("kersonStudents");
+    const teachers = getRecords("kersonTeachers");
+    const classes = getRecords("kersonClasses");
+    const subjects = getRecords("kersonSubjects");
+    const results = getRecords("kersonResults");
+
+    document.getElementById("totalStudents").textContent =
+        students.length;
+
+    document.getElementById("totalTeachers").textContent =
+        teachers.length;
+
+    document.getElementById("totalClasses").textContent =
+        classes.length;
+
+    document.getElementById("totalSubjects").textContent =
+        subjects.length;
+
+    const passed = results.filter(function(result) {
+        return Number(result.total) >= 40;
+    }).length;
+
+    const failed = results.filter(function(result) {
+        return Number(result.total) < 40;
+    }).length;
+
+    console.log("Dashboard statistics updated:", {
+        students: students.length,
+        teachers: teachers.length,
+        classes: classes.length,
+        subjects: subjects.length,
+        results: results.length,
+        passed: passed,
+        failed: failed
+    });
+}
+
+document.getElementById("logoutBtn").addEventListener(
+    "click",
+    function(event) {
+        event.preventDefault();
+        window.location.href = "admin-login.html";
+    }
+);
+
+updateDashboard();
+</script>
 </body>
 </html>
