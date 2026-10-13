@@ -312,11 +312,14 @@ normalizeAdmission(admissionNo);
 });
 });
             if (!student) {
-                message.textContent =
-                    "Student not found. Please check your admission number.";
-                message.style.color = "#b91c1c";
-                return;
-            }
+message.textContent = students.length === 0
+? "No student records were found in this browser. Please check Student Management."
+: "Admission number not matched. Please check the number entered.";
+
+message.style.color = "#b91c1c";
+return;
+
+}
 
             message.textContent =
                 "Student record found! Secure login setup is still required.";
