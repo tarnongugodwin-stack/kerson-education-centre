@@ -239,33 +239,77 @@
     </footer>
 
     <script>
-        document.getElementById("year").textContent =
-            new Date().getFullYear();
+    document.getElementById("year").textContent =
+        new Date().getFullYear();
 
-        const passwordInput = document.getElementById("password");
-        const togglePassword = document.getElementById("togglePassword");
+    const passwordInput =
+        document.getElementById("password");
 
-        togglePassword.addEventListener("click", function () {
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-                togglePassword.textContent = "Hide";
-            } else {
-                passwordInput.type = "password";
-                togglePassword.textContent = "Show";
+    const togglePassword =
+        document.getElementById("togglePassword");
+
+    togglePassword.addEventListener("click", function () {
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            togglePassword.textContent = "Hide";
+        } else {
+            passwordInput.type = "password";
+            togglePassword.textContent = "Show";
+        }
+    });
+
+    document.getElementById("studentLoginForm")
+        .addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const admissionInput =
+                document.getElementById("admissionNo");
+
+            const message =
+                document.getElementById("loginMessage");
+
+            if (!admissionInput) {
+                message.textContent =
+                    "The admission number field needs to be checked.";
+                message.style.color = "#b91c1c";
+                return;
             }
-        });
 
-        document.getElementById("studentLoginForm")
-            .addEventListener("submit", function (event) {
-                event.preventDefault();
+            const admissionNo =
+                admissionInput.value.trim().toLowerCase();
 
-                document.getElementById("loginMessage").textContent =
-                    "The login system is not connected yet. Please try again after setup.";
+            let students = [];
 
-                document.getElementById("loginMessage").style.color =
-                    "#b45309";
+            try {
+                students = JSON.parse(
+                    localStorage.getItem("kersonStudents") || "[]"
+                );
+
+                if (!Array.isArray(students)) {
+                    students = [];
+                }
+            } catch (error) {
+                students = [];
+            }
+
+            const student = students.find(function (record) {
+                return String(record.admissionNo || "")
+                    .trim()
+                    .toLowerCase() === admissionNo;
             });
-    </script>
+
+            if (!student) {
+                message.textContent =
+                    "Student not found. Please check your admission number.";
+                message.style.color = "#b91c1c";
+                return;
+            }
+
+            message.textContent =
+                "Student record found! Secure login setup is still required.";
+            message.style.color = "#15803d";
+        });
+</script>
 
 </body>
   </html>
