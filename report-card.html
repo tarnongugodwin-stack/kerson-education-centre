@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Student Report Card | KERSON Education Center</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f3f6fb;
+    color: #263445;
+    line-height: 1.5;
+}
+
+header {
+    background: #092c5c;
+    color: white;
+    text-align: center;
+    padding: 22px 12px;
+}
+
+header h1 {
+    font-size: 25px;
+    margin-bottom: 5px;
+}
+
+header p {
+    font-size: 14px;
+}
+
+nav {
+    background: #124785;
+    padding: 12px;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 5px 10px;
+    display: inline-block;
+}
+
+.container {
+    width: 95%;
+    max-width: 1100px;
+    margin: 25px auto;
+}
+
+.card {
+    background: white;
+    padding: 22px;
+    border-radius: 9px;
+    margin-bottom: 22px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+}
+
+h2 {
+    color: #092c5c;
+    margin-bottom: 16px;
+    font-size: 21px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccd5e0;
+    border-radius: 5px;
+    background: white;
+    font-size: 14px;
+}
+
+button {
+    padding: 12px 17px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 12px 5px 0 0;
+    font-size: 14px;
+}
+
+.primary {
+    background: #124785;
+    color: white;
+}
+
+.secondary {
+    background: #64748b;
+    color: white;
+}
+
+.report {
+    display: none;
+    background: white;
+    padding: 30px;
+    border: 1px solid #d9e0e8;
+}
+
+.report-heading {
+    text-align: center;
+    border-bottom: 2px solid #092c5c;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.report-heading h1 {
+    color: #092c5c;
+    font-size: 25px;
+}
+
+.report-heading p {
+    font-size: 13px;
+}
+
+.report-title {
+    margin-top: 12px;
+    font-weight: bold;
+    font-size: 19px;
+    color: #124785;
+}
+
+.student-details {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 22px;
+    font-size: 14px;
+}
+
+.student-details div {
+    padding: 8px;
+    background: #f4f7fb;
+    border-radius: 4px;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    min-width: 500px;
+}
+
+th, td {
+    border: 1px solid #cbd5e1;
+    padding: 10px;
+    text-align: center;
+    font-size: 13px;
+}
+
+th {
+    background: #092c5c;
+    color: white;
+}
+
+td.subject {
+    text-align: left;
+}
+
+.summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.summary-box {
+    background: #edf4ff;
+    border: 1px solid #d6e5fa;
+    border-radius: 6px;
+    padding: 13px;
+    text-align: center;
+}
+
+.summary-box p {
+    font-size: 12px;
+    color: #52657b;
+}
+
+.summary-box h3 {
+    color: #092c5c;
+    margin-top: 5px;
+}
+
+.remark {
+    padding: 14px;
+    background: #f4f7fb;
+    border-left: 4px solid #124785;
+    margin: 20px 0;
+}
+
+.signature-area {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 40px;
+    margin-top: 45px;
+}
+
+.signature {
+    text-align: center;
+    border-top: 1px solid #555;
+    padding-top: 8px;
+    font-size: 13px;
+}
+
+footer {
+    background: #092c5c;
+    color: white;
+    text-align: center;
+    padding: 18px;
+    margin-top: 30px;
+}
+
+#message {
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+@media(max-width: 600px) {
+    .form-grid,
+    .student-details {
+        grid-template-columns: 1fr;
+    }
+
+    .summary {
+        grid-template-columns: 1fr;
+    }
+
+    .report {
+        padding: 15px;
+    }
+
+    header h1 {
+        font-size: 21px;
+    }
+}
+
+@media print {
+    @page {
+        size: A4 portrait;
+        margin: 12mm;
+    }
+
+    body {
+        background: white;
+        color: black;
+        font-size: 11px;
+    }
+
+    header,
+    nav,
+    .no-print,
+    footer {
+        display: none !important;
+    }
+
+    .container {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+    }
+
+    .card {
+        display: none !important;
+    }
+
+    .report {
+        display: block !important;
+        border: none;
+        padding: 0;
+    }
+
+    .report-heading h1 {
+        font-size: 21px;
+    }
+
+    th {
+        background: #092c5c !important;
+        color: white !important;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .summary-box {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    table {
+        min-width: 0;
+    }
+
+    th, td {
+        padding: 7px 4px;
+        font-size: 10px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>KERSON Education Center</h1>
+    <p>Atonko, Gboko, Benue State</p>
+    <p>Student Academic Report Card System</p>
+</header>
+
+<nav class="no-print">
+    <a href="index.html">Home</a>
+    <a href="admin-dashboard.html">Dashboard</a>
+    <a href="students.html">Students</a>
+    <a href="results.html">Examination Results</a>
+</nav>
+
+<main class="container">
+
+<section class="card no-print">
+    <h2>Generate Student Report Card</h2>
+
+    <p>
+        Select the student's class, student, term and academic year.
+        The report card will be generated from the examination results
+        already saved on this website.
+    </p>
+
+    <br>
+
+    <div class="form-grid">
+
+        <div>
+            <label for="classSelect">Class</label>
+            <select id="classSelect">
+                <option value="">Choose Class</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="studentSelect">Student</label>
+            <select id="studentSelect">
+                <option value="">Choose Student</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="termSelect">Academic Term</label>
+            <select id="termSelect">
+                <option value="">Choose Term</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="yearSelect">Academic Year</label>
+            <select id="yearSelect">
+                <option value="">Choose Academic Year</option>
+            </select>
+        </div>
+
+    </div>
+
+    <button class="primary" onclick="generateReport()">
+        Generate Report Card
+    </button>
+
+    <button class="secondary" onclick="printReport()">
+        Print / Save as PDF
+    </button>
+
+    <p id="message" aria-live="polite"></p>
+</section>
+
+<section class="report" id="report">
+
+    <div class="report-heading">
+        <h1>KERSON Education Center</h1>
+        <p>Atonko, Gboko, Benue State</p>
+        <p>STUDENT ACADEMIC REPORT CARD</p>
+        <div class="report-title" id="reportTerm">
+            Academic Report
+        </div>
+    </div>
+
+    <div class="student-details">
+        <div><strong>Student Name:</strong> <span id="rName"></span></div>
+        <div><strong>Admission No.:</strong> <span id="rAdmission"></span></div>
+        <div><strong>Class:</strong> <span id="rClass"></span></div>
+        <div><strong>Academic Year:</strong> <span id="rYear"></span></div>
+        <div><strong>Number of Subjects:</strong> <span id="rSubjects"></span></div>
+        <div><strong>Date Generated:</strong> <span id="rDate"></span></div>
+    </div>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>S/N</th>
+                    <th>Subject</th>
+                    <th>CA / 40</th>
+                    <th>Exam / 60</th>
+                    <th>Total / 100</th>
+                    <th>Grade</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="reportTable"></tbody>
+        </table>
+    </div>
+
+    <div class="summary">
+        <div class="summary-box">
+            <p>Total Marks Obtained</p>
+            <h3 id="rTotal">0</h3>
+        </div>
+
+        <div class="summary-box">
+            <p>Average Score</p>
+            <h3 id="rAverage">0%</h3>
+        </div>
+
+        <div class="summary-box">
+            <p>Overall Status</p>
+            <h3 id="rStatus">-</h3>
+        </div>
+    </div>
+
+    <div class="remark">
+        <strong>Academic Remark:</strong>
+        <span id="rRemark"></span>
+    </div>
+
+    <div class="signature-area">
+        <div class="signature">Class Teacher's Signature</div>
+        <div class="signature">Head Teacher's Signature</div>
+    </div>
+
+</section>
+
+</main>
+
+<footer>
+    &copy; 2026 KERSON Education Center. All rights reserved.
+</footer>
+
+<script>
+const RESULTS_KEY = "kersonResults";
+
+function readResults() {
+    try {
+        const data = JSON.parse(
+            localStorage.getItem(RESULTS_KEY) || "[]"
+        );
+
+        return Array.isArray(data) ? data : [];
+    } catch (error) {
+        return [];
+    }
+}
+
+function clean(value) {
+    return String(value ?? "").trim();
+}
+
+function normal(value) {
+    return clean(value).toLowerCase();
+}
+
+function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, function(char) {
+        return {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        }[char];
+    });
+}
+
+function addOption(select, value, label) {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = label;
+    select.appendChild(option);
+}
+
+function unique(values) {
+    return [...new Set(values.filter(function(value) {
+        return clean(value) !== "";
+    }))].sort();
+}
+
+function loadClasses() {
+    const results = readResults();
+    const select = document.getElementById("classSelect");
+
+    select.innerHTML = "";
+    addOption(select, "", "Choose Class");
+
+    const classes = unique(results.map(function(item) {
+        return clean(item.className);
+    }));
+
+    classes.forEach(function(name) {
+        addOption(select, name, name);
+    });
+}
+
+function loadStudents() {
+    const selectedClass = normal(
+        document.getElementById("classSelect").value
+    );
+
+    const select = document.getElementById("studentSelect");
+
+    select.innerHTML = "";
+    addOption(select, "", "Choose Student");
+
+    const matching = readResults().filter(function(item) {
+        return normal(item.className) === selectedClass;
+    });
+
+    const students = [];
+
+    matching.forEach(function(item) {
+        const admission = clean(item.admissionNo);
+        const name = clean(item.studentName);
+
+        if (!admission || !name) return;
+
+        const exists = students.some(function(student) {
+            return student.admission === admission;
+        });
+
+        if (!exists) {
+            students.push({
+                admission: admission,
+                name: name
+            });
+        }
+    });
+
+    students.sort(function(a, b) {
+        return a.name.localeCompare(b.name);
+    });
+
+    students.forEach(function(student) {
+        addOption(
+            select,
+            student.admission,
+            student.name + " (" + student.admission + ")"
+        );
+    });
+
+    loadTermsAndYears();
+}
+
+function loadTermsAndYears() {
+    const className = normal(
+        document.getElementById("classSelect").value
+    );
+
+    const admission = document.getElementById("studentSelect").value;
+
+    const results = readResults().filter(function(item) {
+        return normal(item.className) === className &&
+            String(item.admissionNo) === String(admission);
+    });
+
+    const termSelect = document.getElementById("termSelect");
+    const yearSelect = document.getElementById("yearSelect");
+
+    termSelect.innerHTML = "";
+    yearSelect.innerHTML = "";
+
+    addOption(termSelect, "", "Choose Term");
+    addOption(yearSelect, "", "Choose Academic Year");
+
+    unique(results.map(function(item) {
+        return clean(item.term);
+    })).forEach(function(term) {
+        addOption(termSelect, term, term);
+    });
+
+    unique(results.map(function(item) {
+        return clean(item.academicYear);
+    })).forEach(function(year) {
+        addOption(yearSelect, year, year);
+    });
+}
+
+document.getElementById("classSelect").addEventListener(
+    "change",
+    function() {
+        document.getElementById("studentSelect").value = "";
+        loadStudents();
+    }
+);
+
+document.getElementById("studentSelect").addEventListener(
+    "change",
+    loadTermsAndYears
+);
+
+function generateReport() {
+    const className = document.getElementById("classSelect").value;
+    const admission = document.getElementById("studentSelect").value;
+    const term = document.getElementById("termSelect").value;
+    const year = document.getElementById("yearSelect").value;
+
+    const message = document.getElementById("message");
+
+    if (!className || !admission || !term || !year) {
+        message.textContent =
+            "Please select the class, student, term and academic year.";
+        message.style.color = "#b42318";
+        return;
+    }
+
+    const records = readResults().filter(function(item) {
+        return normal(item.className) === normal(className) &&
+            String(item.admissionNo) === String(admission) &&
+            item.term === term &&
+            item.academicYear === year;
+    });
+
+    if (records.length === 0) {
+        message.textContent =
+            "No results found for the selected student and term.";
+        message.style.color = "#b42318";
+        return;
+    }
+
+    records.sort(function(a, b) {
+        return clean(a.subjectTitle).localeCompare(
+            clean(b.subjectTitle)
+        );
+    });
+
+    const first = records[0];
+
+    const totalMarks = records.reduce(function(sum, item) {
+        return sum + Number(item.total || 0);
+    }, 0);
+
+    const average = totalMarks / records.length;
+
+    const passed = records.every(function(item) {
+        return Number(item.total) >= 40;
+    });
+
+    let remark = "Needs improvement. More academic support is recommended.";
+
+    if (average >= 70 && passed) {
+        remark = "Excellent performance. Keep up the good work!";
+    } else if (average >= 60 && passed) {
+        remark = "Very good performance. Continue working hard.";
+    } else if (average >= 50 && passed) {
+        remark = "Good performance. Further improvement is encouraged.";
+    } else if (passed) {
+        remark = "Satisfactory performance. Aim for higher scores.";
+    }
+
+    document.getElementById("rName").textContent =
+        first.studentName;
+
+    document.getElementById("rAdmission").textContent =
+        first.admissionNo;
+
+    document.getElementById("rClass").textContent =
+        first.className;
+
+    document.getElementById("rYear").textContent =
+        first.academicYear;
+
+    document.getElementById("rSubjects").textContent =
+        records.length;
+
+    document.getElementById("rDate").textContent =
+        new Date().toLocaleDateString("en-GB");
+
+    document.getElementById("reportTerm").textContent =
+        first.term + " Report";
+
+    document.getElementById("rTotal").textContent =
+        totalMarks.toFixed(2);
+
+    document.getElementById("rAverage").textContent =
+        average.toFixed(2) + "%";
+
+    document.getElementById("rStatus").textContent =
+        passed ? "PASS" : "NEEDS IMPROVEMENT";
+
+    document.getElementById("rRemark").textContent = remark;
+
+    document.getElementById("reportTable").innerHTML =
+        records.map(function(item, index) {
+            return `
+            <tr>
+                <td>${index + 1}</td>
+                <td class="subject">${escapeHTML(item.subjectTitle)}</td>
+                <td>${Number(item.caScore).toFixed(2)}</td>
+                <td>${Number(item.examScore).toFixed(2)}</td>
+                <td>${Number(item.total).toFixed(2)}</td>
+                <td>${escapeHTML(item.grade)}</td>
+                <td>${escapeHTML(item.status)}</td>
+            </tr>`;
+        }).join("");
+
+    document.getElementById("report").style.display = "block";
+
+    message.textContent = "Report card generated successfully.";
+    message.style.color = "#176b32";
+
+    document.getElementById("report").scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
+function printReport() {
+    if (document.getElementById("report").style.display !== "block") {
+        alert("Generate a report card before printing.");
+        return;
+    }
+
+    window.print();
+}
+
+loadClasses();
+</script>
+
+</body>
+  </html>
