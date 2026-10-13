@@ -295,10 +295,10 @@
             }
 
             const student = students.find(function (record) {
-                return String(record.admissionNo || "")
-                    .trim()
-                    .toLowerCase() === admissionNo;
-            });
+    return String(record.admissionNumber || "")
+        .trim()
+        .toLowerCase() === admissionNo;
+});
 
             if (!student) {
                 message.textContent =
