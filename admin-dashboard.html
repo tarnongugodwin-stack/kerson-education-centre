@@ -492,13 +492,37 @@ function updateDashboard() {
     document.getElementById("totalSubjects").textContent =
         subjects.length;
 
-    const passed = results.filter(function(result) {
-        return Number(result.total) >= 40;
-    }).length;
+   // Count examination results
+const totalResults = results.length;
 
-    const failed = results.filter(function(result) {
-        return Number(result.total) < 40;
-    }).length;
+// Count passed results
+const passed = results.filter(function(result) {
+    return Number(result.total) >= 40;
+}).length;
+
+// Count failed results
+const failed = results.filter(function(result) {
+    return Number(result.total) < 40;
+}).length;
+
+// Calculate percentages
+const passRate = totalResults > 0
+    ? ((passed / totalResults) * 100).toFixed(1)
+    : "0.0";
+
+const failRate = totalResults > 0
+    ? ((failed / totalResults) * 100).toFixed(1)
+    : "0.0";
+
+// Update dashboard cards
+document.getElementById("totalResults").textContent =
+    totalResults;
+
+document.getElementById("passRate").textContent =
+    passRate + "%";
+
+document.getElementById("failRate").textContent =
+    failRate + "%"; 
 
     console.log("Dashboard statistics updated:", {
         students: students.length,
