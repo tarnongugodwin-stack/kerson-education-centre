@@ -293,13 +293,24 @@
             } catch (error) {
                 students = [];
             }
+   
+const normalizeAdmission = function (value) {
+return String(value || "")
+.trim()
+.toLowerCase()
+.replace(/[\s-]+/g, "");
+};
 
-            const student = students.find(function (record) {
-    return String(record.admissionNumber || "")
-        .trim()
-        .toLowerCase() === admissionNo;
+const student = students.find(function (record) {
+return [
+record.admissionNumber,
+record.admissionNo,
+record.matricNumber
+].some(function (value) {
+return normalizeAdmission(value) ===
+normalizeAdmission(admissionNo);
 });
-
+});
             if (!student) {
                 message.textContent =
                     "Student not found. Please check your admission number.";
