@@ -299,8 +299,9 @@ return String(value || "")
 .trim()
 .toLowerCase()
 .replace(/[\s-]+/g, "");
-};
-
+};       
+console.log("Students loaded:", students);
+console.log("Admission number entered:", admissionNo);
 const student = students.find(function (record) {
 return [
 record.admissionNumber,
