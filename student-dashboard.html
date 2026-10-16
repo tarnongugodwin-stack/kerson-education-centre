@@ -1,1 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>Student Dashboard | KERSON Education Center</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        header {
+            background: #123b6d;
+            color: white;
+            padding: 22px 15px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 25px;
+            margin-bottom: 6px;
+        }
+
+        header p {
+            font-size: 14px;
+        }
+
+        nav {
+            background: #ffffff;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 5px #00000010;
+        }
+
+        nav a,
+        nav button {
+            text-decoration: none;
+            border: none;
+            background: #123b6d;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: 25px auto;
+            padding: 0 15px;
+        }
+
+        .welcome {
+            background: white;
+            padding: 22px;
+            border-radius: 10px;
+            margin-bottom: 22px;
+            box-shadow: 0 2px 8px #00000008;
+        }
+
+        .welcome h2 {
+            color: #123b6d;
+            margin-bottom: 12px;
+        }
+
+        .student-details {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit, minmax(180px, 1fr)
+            );
+            gap: 15px;
+            margin-top: 18px;
+        }
+
+        .detail {
+            background: #f1f5f9;
+            padding: 14px;
+            border-radius: 7px;
+            overflow-wrap: anywhere;
+        }
+
+        .detail span {
+            display: block;
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 7px;
+        }
+
+        .detail strong {
+            color: #123b6d;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit, minmax(150px, 1fr)
+            );
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 20px;
+            border-radius: 9px;
+            text-align: center;
+            box-shadow: 0 2px 8px #00000008;
+        }
+
+        .summary-card h3 {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .summary-card p {
+            color: #123b6d;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .results-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px #00000008;
+        }
+
+        .results-section h2 {
+            color: #123b6d;
+            margin-bottom: 18px;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        th,
+        td {
+            border: 1px solid #e2e8f0;
+            padding: 12px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th {
+            background: #123b6d;
+            color: white;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        .message {
+            padding: 15px;
+            background: #eff6ff;
+            color: #1d4ed8;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .pass {
+            color: #15803d;
+            font-weight: bold;
+        }
+
+        .fail {
+            color: #b91c1c;
+            font-weight: bold;
+        }
+
+        .print-button {
+            background: #15803d;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 18px;
+        }
+
+        footer {
+            background: #123b6d;
+            color: white;
+            text-align: center;
+            padding: 18px;
+            margin-top: 35px;
+        }
+
+        @media print {
+            nav,
+            .print-button {
+                display: none !important;
+            }
+
+            body {
+                background: white;
+            }
+
+            main {
+                max-width: 100%;
+                margin: 10px;
+            }
+
+            .welcome,
+            .results-section,
+            .summary-card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+
+            header,
+            footer {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>KERSON Education Center</h1>
+    <p>Student Portal | Atonko, Gboko, Benue State</p>
+</header>
+
+<nav>
+    <a href="index.html">Home</a>
+    <button type="button" onclick="printResults()">
+        Print Results
+    </button>
+    <button type="button" id="logoutBtn">
+        Logout
+    </button>
+</nav>
+
+<main>
+
+    <section class="welcome">
+        <h2 id="welcomeMessage">Welcome to Your Dashboard</h2>
+        <p>View your student information and academic performance.</p>
+
+        <div class="student-details">
+            <div class="detail">
+                <span>Full Name</span>
+                <strong id="studentName">Loading...</strong>
+            </div>
+
+            <div class="detail">
+                <span>Admission Number</span>
+                <strong id="admissionNumber">Loading...</strong>
+            </div>
+
+            <div class="detail">
+                <span>Class</span>
+                <strong id="studentClass">Loading...</strong>
+            </div>
+
+            <div class="detail">
+                <span>Academic Session</span>
+                <strong id="academicSession">Not specified</strong>
+            </div>
+        </div>
+    </section>
+
+    <section class="summary">
+        <div class="summary-card">
+            <h3>Subjects Recorded</h3>
+            <p id="totalSubjects">0</p>
+        </div>
+
+        <div class="summary-card">
+            <h3>Total Score</h3>
+            <p id="totalScore">0</p>
+        </div>
+
+        <div class="summary-card">
+            <h3>Average Score</h3>
+            <p id="averageScore">0%</p>
+        </div>
+
+        <div class="summary-card">
+            <h3>Overall Status</h3>
+            <p id="overallStatus">N/A</p>
+        </div>
+    </section>
+
+    <section class="results-section">
+        <h2>My Examination Results</h2>
+
+        <div id="resultMessage" class="message">
+            Loading examination results...
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Term</th>
+                        <th>CA (40)</th>
+                        <th>Exam (60)</th>
+                        <th>Total (100)</th>
+                        <th>Grade</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody id="resultsTable">
+                </tbody>
+            </table>
+        </div>
+
+        <button
+            type="button"
+            class="print-button"
+            onclick="printResults()"
+        >
+            Print or Save Results as PDF
+        </button>
+    </section>
+
+</main>
+
+<footer>
+    <p>
+        &copy; <span id="year"></span>
+        KERSON Education Center. All rights reserved.
+    </p>
+</footer>
+
+<script>
+    document.getElementById("year").textContent =
+        new Date().getFullYear();
+
+    function normalizeAdmission(value) {
+        return String(value || "")
+            .trim()
+            .toLowerCase()
+            .replace(/[\s-]+/g, "");
+    }
+
+    function readRecords(key) {
+        try {
+            const records = JSON.parse(
+                localStorage.getItem(key) || "[]"
+            );
+
+            return Array.isArray(records) ? records : [];
+        } catch (error) {
+            return [];
+        }
+    }
+
+    function loadDashboard() {
+        let currentStudent = null;
+
+        try {
+            currentStudent = JSON.parse(
+                sessionStorage.getItem("kersonCurrentStudent")
+                || "null"
+            );
+        } catch (error) {
+            currentStudent = null;
+        }
+
+        if (!currentStudent) {
+            document.getElementById("resultMessage").textContent =
+                "No student session found. Please log in first.";
+            return;
+        }
+
+        const name =
+            currentStudent.fullName || "Student";
+
+        const admission =
+            currentStudent.admissionNumber ||
+            currentStudent.admissionNo || "";
+
+        const studentClass =
+            currentStudent.studentClass || "Not specified";
+
+        document.getElementById("welcomeMessage").textContent =
+            "Welcome, " + name;
+
+        document.getElementById("studentName").textContent =
+            name;
+
+        document.getElementById("admissionNumber").textContent =
+            admission;
+
+        document.getElementById("studentClass").textContent =
+            studentClass;
+
+        const results = readRecords("kersonResults");
+
+        const studentResults = results.filter(function (result) {
+            return normalizeAdmission(result.admissionNo) ===
+                normalizeAdmission(admission);
+        });
+
+        const tbody = document.getElementById("resultsTable");
+        tbody.innerHTML = "";
+
+        let totalScore = 0;
+        let passedSubjects = 0;
+
+        studentResults.forEach(function (result) {
+            const score = Number(result.total) || 0;
+            totalScore += score;
+
+            if (score >= 40) {
+                passedSubjects++;
+            }
+
+            const row = document.createElement("tr");
+
+            const values = [
+                result.subjectTitle || result.subjectCode || "Subject",
+                result.term || "Not specified",
+                Number(result.caScore) || 0,
+                Number(result.examScore) || 0,
+                score,
+                result.grade || "-",
+                result.status || (score >= 40 ? "PASS" : "FAIL")
+            ];
+
+            values.forEach(function (value, index) {
+                const cell = document.createElement("td");
+                cell.textContent = value;
+
+                if (index === 6) {
+                    cell.className =
+                        String(value).toUpperCase() === "PASS"
+                            ? "pass"
+                            : "fail";
+                }
+
+                row.appendChild(cell);
+            });
+
+            tbody.appendChild(row);
+        });
+
+        document.getElementById("totalSubjects").textContent =
+            studentResults.length;
+
+        document.getElementById("totalScore").textContent =
+            totalScore;
+
+        const average = studentResults.length > 0
+            ? (totalScore / studentResults.length).toFixed(2)
+            : "0.00";
+
+        document.getElementById("averageScore").textContent =
+            average + "%";
+
+        let status = "N/A";
+
+        if (studentResults.length > 0) {
+            status = passedSubjects === studentResults.length
+                ? "PASS"
+                : "REVIEW";
+        }
+
+        document.getElementById("overallStatus").textContent =
+            status;
+
+        const message =
+            document.getElementById("resultMessage");
+
+        message.textContent = studentResults.length > 0
+            ? "Your examination results are displayed below."
+            : "No examination results were found for your admission number.";
+    }
+
+    function printResults() {
+        window.print();
+    }
+
+    document.getElementById("logoutBtn").addEventListener(
+        "click",
+        function () {
+            sessionStorage.removeItem("kersonCurrentStudent");
+            window.location.href = "student-login.html";
+        }
+    );
+
+    loadDashboard();
+</script>
+
+</body>
+  </html>
