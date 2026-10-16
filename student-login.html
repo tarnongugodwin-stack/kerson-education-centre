@@ -322,9 +322,14 @@ return;
 
 }
 
-            message.textContent =
-                "Student record found! Secure login setup is still required.";
-            message.style.color = "#15803d";
+            // Save the selected student's record for this browser session
+sessionStorage.setItem(
+    "kersonCurrentStudent",
+    JSON.stringify(student)
+);
+
+// Open the student dashboard
+window.location.href = "student-dashboard.html";
         });
 </script>
 
