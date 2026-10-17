@@ -397,6 +397,37 @@ footer {
     </button>
 
     <p id="message" aria-live="polite"></p>
+    <div id="commentEntryForm" style="margin-top: 20px; padding: 18px; background: #f4f7fb; border-radius: 8px;"><h3 style="color: #092c5c; margin-bottom: 12px;">
+    Enter Report Comments
+</h3>
+
+<label for="teacherCommentInput">Class Teacher's Comment</label>
+<textarea
+    id="teacherCommentInput"
+    rows="3"
+    placeholder="Enter the class teacher's assessment..."
+    style="width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccd5e0; border-radius: 5px;"
+></textarea>
+
+<label for="principalCommentInput">Principal's Comment</label>
+<textarea
+    id="principalCommentInput"
+    rows="3"
+    placeholder="Enter the principal's assessment..."
+    style="width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccd5e0; border-radius: 5px;"
+></textarea>
+
+<button
+    type="button"
+    class="primary"
+    onclick="saveReportComments()"
+>
+    Save Comments
+</button>
+
+<p id="commentMessage" aria-live="polite"></p>
+
+</div>
 </section>
 
 <section class="report" id="report">
