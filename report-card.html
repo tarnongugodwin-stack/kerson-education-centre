@@ -324,10 +324,16 @@ footer {
 
 <body>
 
-<header>
-    <h1>KERSON Education Center</h1>
-    <p>Atonko, Gboko, Benue State</p>
-    <p>Student Academic Report Card System</p>
+<header class="school-header">
+    <div class="school-name">
+        <h1>KERSON EDUCATION CENTER</h1>
+        <p class="school-address">
+            Atonko, Gboko, Benue State, Nigeria
+        </p>
+        <p class="report-title">
+            STUDENT ACADEMIC REPORT CARD
+        </p>
+    </div>
 </header>
 
 <nav class="no-print">
@@ -750,6 +756,49 @@ function printReport() {
 }
 
 loadClasses();
+   .school-header {
+    background: #123b6d;
+    color: white;
+    text-align: center;
+    padding: 25px 15px;
+    border-bottom: 5px solid #d4a017;
+    margin-bottom: 25px;
+}
+
+.school-header h1 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+.school-address {
+    font-size: 15px;
+    margin-bottom: 12px;
+}
+
+.report-title {
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+@media print {
+    .school-header {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+}
+
+@media (max-width: 600px) {
+    .school-header h1 {
+        font-size: 21px;
+    }
+
+    .report-title {
+        font-size: 15px;
+    }
+} 
 </script>
 
 </body>
