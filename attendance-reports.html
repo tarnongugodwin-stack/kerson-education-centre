@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Reports | KERSON Education Center</title>
+    <link rel="stylesheet" href="Css/style.css">
+
+    <style>
+        body {
+            background: #f3f6fb;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        .header {
+            background: #123b72;
+            color: white;
+            padding: 20px 5%;
+        }
+
+        .header h1 {
+            margin: 0 0 8px;
+            font-size: 1.5rem;
+        }
+
+        .header p {
+            margin: 0;
+            color: #e2e8f0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 25px auto;
+            padding: 0 16px;
+        }
+
+        .panel {
+            background: white;
+            padding: 22px;
+            border-radius: 10px;
+            margin-bottom: 22px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .panel h2 {
+            color: #123b72;
+            margin-top: 0;
+        }
+
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+            color: #334155;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #cbd5e1;
+            border-radius: 5px;
+            box-sizing: border-box;
+            background: white;
+        }
+
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        button, .button {
+            border: none;
+            background: #123b72;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .secondary {
+            background: #64748b;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 15px;
+        }
+
+        .summary-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 9px;
+            padding: 18px;
+        }
+
+        .summary-card p {
+            color: #64748b;
+            margin: 0 0 10px;
+            font-size: 0.9rem;
+        }
+
+        .summary-card h2 {
+            color: #123b72;
+            font-size: 1.8rem;
+            margin: 0;
+        }
+
+        .present {
+            color: #15803d !important;
+        }
+
+        .absent {
+            color: #dc2626 !important;
+        }
+
+        .late {
+            color: #b45309 !important;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: #123b72;
+            color: white;
+        }
+
+        .badge {
+            padding: 5px 9px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .badge-present {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .badge-absent {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .badge-late {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .message {
+            padding: 15px;
+            background: #eff6ff;
+            border-radius: 5px;
+            color: #1e40af;
+        }
+
+        .report-heading {
+            display: none;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 750px) {
+            .filters {
+                grid-template-columns: 1fr;
+            }
+
+            .summary {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .panel {
+                padding: 16px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .summary {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            .header, .filters-panel, .buttons,
+            .no-print {
+                display: none !important;
+            }
+
+            .container {
+                max-width: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            .panel, .summary-card {
+                border: 1px solid #ccc;
+                box-shadow: none;
+                break-inside: avoid;
+            }
+
+            .summary {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .report-heading {
+                display: block;
+            }
+
+            th {
+                background: #ddd !important;
+                color: black !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+    <h1>KERSON EDUCATION CENTER</h1>
+    <p>Atonko, Gboko, Benue State, Nigeria</p>
+    <p>Attendance Reports Management</p>
+</header>
+
+<main class="container">
+
+    <div class="panel filters-panel">
+        <h2>Attendance Report Filters</h2>
+
+        <div class="filters">
+            <div>
+                <label for="classFilter">Select Class</label>
+                <select id="classFilter">
+                    <option value="">All Classes</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="startDate">Start Date</label>
+                <input type="date" id="startDate">
+            </div>
+
+            <div>
+                <label for="endDate">End Date</label>
+                <input type="date" id="endDate">
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button type="button" onclick="generateReport()">
+                Generate Report
+            </button>
+
+            <button type="button" class="secondary"
+                    onclick="resetFilters()">
+                Reset Filters
+            </button>
+
+            <button type="button" onclick="window.print()">
+                Print / Save PDF
+            </button>
+
+            <a href="attendance.html" class="button secondary">
+                Back to Attendance
+            </a>
+
+            <a href="admin-dashboard.html" class="button secondary">
+                Admin Dashboard
+            </a>
+        </div>
+    </div>
+
+    <div class="report-heading">
+        <h1>KERSON EDUCATION CENTER</h1>
+        <h2>STUDENT ATTENDANCE REPORT</h2>
+        <p>Atonko, Gboko, Benue State, Nigeria</p>
+        <p id="printPeriod"></p>
+    </div>
+
+    <section class="summary">
+        <article class="summary-card">
+            <p>Total Attendance Records</p>
+            <h2 id="totalRecords">0</h2>
+        </article>
+
+        <article class="summary-card">
+            <p>Present</p>
+            <h2 class="present" id="presentCount">0</h2>
+        </article>
+
+        <article class="summary-card">
+            <p>Absent</p>
+            <h2 class="absent" id="absentCount">0</h2>
+        </article>
+
+        <article class="summary-card">
+            <p>Late</p>
+            <h2 class="late" id="lateCount">0</h2>
+        </article>
+    </section>
+
+    <section class="panel">
+        <h2>Attendance Percentage</h2>
+        <p>
+            Attendance rate counts students marked Present or Late
+            as having attended.
+        </p>
+        <h2 id="attendanceRate">0%</h2>
+    </section>
+
+    <section class="panel">
+        <h2>Attendance Records</h2>
+
+        <div id="reportMessage" class="message">
+            Loading attendance records...
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>S/N</th>
+                        <th>Date</th>
+                        <th>Admission Number</th>
+                        <th>Student Name</th>
+                        <th>Class</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="reportTable"></tbody>
+            </table>
+        </div>
+    </section>
+
+    <footer style="text-align:center; padding:20px; color:#64748b;">
+        &copy; <span id="year"></span>
+        KERSON Education Center. All rights reserved.
+    </footer>
+
+</main>
+
+<script>
+const ATTENDANCE_KEY = "kersonAttendance";
+const CLASSES_KEY = "kersonClasses";
+
+function getRecords(key) {
+    try {
+        const records = JSON.parse(localStorage.getItem(key) || "[]");
+        return Array.isArray(records) ? records : [];
+    } catch (error) {
+        return [];
+    }
+}
+
+function loadClassOptions() {
+    const select = document.getElementById("classFilter");
+    const classes = getRecords(CLASSES_KEY);
+    const attendance = getRecords(ATTENDANCE_KEY);
+
+    const names = new Set();
+
+    classes.forEach(function(item) {
+        const name = item.className || item.name;
+        if (name) names.add(String(name));
+    });
+
+    attendance.forEach(function(item) {
+        if (item.className) {
+            names.add(String(item.className));
+        }
+    });
+
+    Array.from(names).sort().forEach(function(name) {
+        const option = document.createElement("option");
+        option.value = name;
+        option.textContent = name;
+        select.appendChild(option);
+    });
+}
+
+function formatDate(dateValue) {
+    if (!dateValue) return "—";
+
+    const parts = String(dateValue).split("-");
+
+    if (parts.length === 3) {
+        return parts[2] + "/" + parts[1] + "/" + parts[0];
+    }
+
+    return dateValue;
+}
+
+function generateReport() {
+    const className = document.getElementById("classFilter").value;
+    const startDate = document.getElementById("startDate").value;
+    const endDate = document.getElementById("endDate").value;
+
+    const table = document.getElementById("reportTable");
+    const message = document.getElementById("reportMessage");
+
+    table.innerHTML = "";
+
+    if (startDate && endDate && startDate > endDate) {
+        message.textContent =
+            "The start date cannot be later than the end date.";
+        message.style.display = "block";
+        resetSummary();
+        return;
+    }
+
+    const allRecords = getRecords(ATTENDANCE_KEY);
+
+    const records = allRecords.filter(function(record) {
+        const date = String(record.date || "");
+
+        const matchesClass =
+            !className || String(record.className || "") === className;
+
+        const matchesStart = !startDate || date >= startDate;
+        const matchesEnd = !endDate || date <= endDate;
+
+        return matchesClass && matchesStart && matchesEnd;
+    });
+
+    let present = 0;
+    let absent = 0;
+    let late = 0;
+
+    records.forEach(function(record, index) {
+        const status = String(record.status || "").toLowerCase();
+
+        if (status === "present") present++;
+        else if (status === "absent") absent++;
+        else if (status === "late") late++;
+
+        const row = document.createElement("tr");
+
+        const values = [
+            index + 1,
+            formatDate(record.date),
+            record.admissionNumber || "—",
+            record.fullName || record.studentName || "—",
+            record.className || "—"
+        ];
+
+        values.forEach(function(value) {
+            const cell = document.createElement("td");
+            cell.textContent = value;
+            row.appendChild(cell);
+        });
+
+        const statusCell = document.createElement("td");
+        const badge = document.createElement("span");
+        badge.className = "badge";
+
+        if (status === "present") {
+            badge.classList.add("badge-present");
+            badge.textContent = "Present";
+        } else if (status === "absent") {
+            badge.classList.add("badge-absent");
+            badge.textContent = "Absent";
+        } else if (status === "late") {
+            badge.classList.add("badge-late");
+            badge.textContent = "Late";
+        } else {
+            badge.textContent = record.status || "Unknown";
+        }
+
+        statusCell.appendChild(badge);
+        row.appendChild(statusCell);
+        table.appendChild(row);
+    });
+
+    const total = records.length;
+    const attended = present + late;
+    const rate = total > 0
+        ? ((attended / total) * 100).toFixed(1)
+        : "0.0";
+
+    document.getElementById("totalRecords").textContent = total;
+    document.getElementById("presentCount").textContent = present;
+    document.getElementById("absentCount").textContent = absent;
+    document.getElementById("lateCount").textContent = late;
+    document.getElementById("attendanceRate").textContent = rate + "%";
+
+    if (total === 0) {
+        message.textContent =
+            "No attendance records match your selected filters.";
+        message.style.display = "block";
+    } else {
+        message.textContent = "Report generated successfully.";
+        message.style.display = "block";
+    }
+
+    const selectedClass = className || "All Classes";
+    const from = startDate ? formatDate(startDate) : "Beginning";
+    const to = endDate ? formatDate(endDate) : "Today";
+
+    document.getElementById("printPeriod").textContent =
+        "Class: " + selectedClass + " | Period: " + from + " to " + to;
+}
+
+function resetSummary() {
+    document.getElementById("totalRecords").textContent = "0";
+    document.getElementById("presentCount").textContent = "0";
+    document.getElementById("absentCount").textContent = "0";
+    document.getElementById("lateCount").textContent = "0";
+    document.getElementById("attendanceRate").textContent = "0%";
+    document.getElementById("reportTable").innerHTML = "";
+}
+
+function resetFilters() {
+    document.getElementById("classFilter").value = "";
+    document.getElementById("startDate").value = "";
+    document.getElementById("endDate").value = "";
+    generateReport();
+}
+
+document.getElementById("year").textContent =
+    new Date().getFullYear();
+
+loadClassOptions();
+generateReport();
+</script>
+
+</body>
+  </html>
