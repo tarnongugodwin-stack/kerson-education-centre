@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Attendance Management | KERSON Education Center</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #263445;
+            line-height: 1.5;
+        }
+
+        header {
+            background: #123b6d;
+            color: white;
+            text-align: center;
+            padding: 24px 12px;
+            border-bottom: 5px solid #d4a017;
+        }
+
+        header h1 {
+            font-size: 25px;
+            margin-bottom: 6px;
+        }
+
+        nav {
+            background: white;
+            padding: 14px;
+            text-align: center;
+            box-shadow: 0 2px 6px #00000010;
+        }
+
+        nav a {
+            display: inline-block;
+            color: #123b6d;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 5px 10px;
+        }
+
+        main {
+            width: 95%;
+            max-width: 1100px;
+            margin: 25px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 9px;
+            margin-bottom: 22px;
+            box-shadow: 0 3px 12px #00000008;
+        }
+
+        h2 {
+            color: #123b6d;
+            margin-bottom: 15px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit, minmax(200px, 1fr)
+            );
+            gap: 16px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        select,
+        input {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #cbd5e1;
+            border-radius: 5px;
+            background: white;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 11px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 8px 5px 0 0;
+        }
+
+        .primary {
+            background: #123b6d;
+            color: white;
+        }
+
+        .success {
+            background: #15803d;
+            color: white;
+        }
+
+        .secondary {
+            background: #64748b;
+            color: white;
+        }
+
+        .danger {
+            background: #b91c1c;
+            color: white;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit, minmax(140px, 1fr)
+            );
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .summary-box {
+            background: #eff6ff;
+            border: 1px solid #dbeafe;
+            padding: 16px;
+            border-radius: 7px;
+            text-align: center;
+        }
+
+        .summary-box p {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .summary-box h3 {
+            color: #123b6d;
+            font-size: 25px;
+            margin-top: 5px;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 700px;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            padding: 11px;
+            border: 1px solid #e2e8f0;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th {
+            background: #123b6d;
+            color: white;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        .status-select {
+            min-width: 120px;
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .empty {
+            padding: 18px;
+            text-align: center;
+            color: #64748b;
+        }
+
+        footer {
+            background: #123b6d;
+            color: white;
+            text-align: center;
+            padding: 18px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 21px;
+            }
+
+            .card {
+                padding: 15px;
+            }
+        }
+
+        @media print {
+            nav,
+            .no-print,
+            footer {
+                display: none !important;
+            }
+
+            body {
+                background: white;
+            }
+
+            main {
+                width: 100%;
+                margin: 0;
+            }
+
+            .card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+
+            table {
+                min-width: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>KERSON EDUCATION CENTER</h1>
+    <p>Atonko, Gboko, Benue State, Nigeria</p>
+    <p>Student Attendance Management</p>
+</header>
+
+<nav class="no-print">
+    <a href="index.html">Home</a>
+    <a href="admin-dashboard.html">Admin Dashboard</a>
+    <a href="students.html">Students</a>
+    <a href="classes.html">Classes</a>
+    <a href="results.html">Results</a>
+</nav>
+
+<main>
+
+    <section class="card no-print">
+        <h2>Record Student Attendance</h2>
+
+        <div class="form-grid">
+
+            <div>
+                <label for="classSelect">Select Class</label>
+                <select id="classSelect">
+                    <option value="">Choose Class</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="attendanceDate">Attendance Date</label>
+                <input type="date" id="attendanceDate" required>
+            </div>
+
+        </div>
+
+        <button class="primary" id="loadButton">
+            Load Students
+        </button>
+
+        <button class="secondary" id="todayButton">
+            Today's Date
+        </button>
+
+        <div id="message" class="message" aria-live="polite"></div>
+    </section>
+
+    <section class="card">
+        <h2>Attendance Summary</h2>
+
+        <div class="summary">
+            <div class="summary-box">
+                <p>Total Students</p>
+                <h3 id="totalCount">0</h3>
+            </div>
+
+            <div class="summary-box">
+                <p>Present</p>
+                <h3 id="presentCount">0</h3>
+            </div>
+
+            <div class="summary-box">
+                <p>Absent</p>
+                <h3 id="absentCount">0</h3>
+            </div>
+
+            <div class="summary-box">
+                <p>Late</p>
+                <h3 id="lateCount">0</h3>
+            </div>
+        </div>
+    </section>
+
+    <section class="card">
+        <h2>Class Attendance Register</h2>
+
+        <p>
+            Select each student's attendance status.
+            Remember to save your records.
+        </p>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>S/N</th>
+                        <th>Admission Number</th>
+                        <th>Student Name</th>
+                        <th>Class</th>
+                        <th>Attendance Status</th>
+                    </tr>
+                </thead>
+
+                <tbody id="attendanceTable">
+                    <tr>
+                        <td colspan="5" class="empty">
+                            Select a class and load students.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="no-print">
+            <button class="success" id="markAllPresent">
+                Mark All Present
+            </button>
+
+            <button class="primary" id="saveButton">
+                Save Attendance
+            </button>
+
+            <button class="secondary" id="printButton">
+                Print Register
+            </button>
+        </div>
+    </section>
+
+    <section class="card">
+        <h2>Saved Attendance Records</h2>
+
+        <div class="form-grid no-print">
+            <div>
+                <label for="historyDate">Choose Date</label>
+                <input type="date" id="historyDate">
+            </div>
+
+            <div>
+                <label for="historyClass">Choose Class</label>
+                <select id="historyClass">
+                    <option value="">Choose Class</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="primary no-print" id="viewHistory">
+            View Saved Attendance
+        </button>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Admission Number</th>
+                        <th>Student Name</th>
+                        <th>Class</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody id="historyTable">
+                    <tr>
+                        <td colspan="5" class="empty">
+                            Choose a date and class to view records.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    &copy; <span id="year"></span>
+    KERSON Education Center. All rights reserved.
+</footer>
+
+<script>
+const STUDENTS_KEY = "kersonStudents";
+const CLASSES_KEY = "kersonClasses";
+const ATTENDANCE_KEY = "kersonAttendance";
+
+let currentStudents = [];
+
+document.getElementById("year").textContent =
+    new Date().getFullYear();
+
+function localDateString() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+
+    return year + "-" + month + "-" + day;
+}
+
+function readRecords(key) {
+    try {
+        const data = JSON.parse(
+            localStorage.getItem(key) || "[]"
+        );
+
+        return Array.isArray(data) ? data : [];
+    } catch (error) {
+        return [];
+    }
+}
+
+function clean(value) {
+    return String(value || "").trim();
+}
+
+function addOption(select, value, label) {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = label;
+    select.appendChild(option);
+}
+
+function showMessage(text, success) {
+    const message = document.getElementById("message");
+
+    message.textContent = text;
+    message.style.display = "block";
+    message.style.background = success ? "#dcfce7" : "#fee2e2";
+    message.style.color = success ? "#166534" : "#991b1b";
+}
+
+function loadClassOptions() {
+    const students = readRecords(STUDENTS_KEY);
+    const classes = readRecords(CLASSES_KEY);
+
+    const names = new Set();
+
+    classes.forEach(function(item) {
+        const name = clean(item.className || item.name);
+        if (name) names.add(name);
+    });
+
+    students.forEach(function(item) {
+        const name = clean(item.studentClass || item.className);
+        if (name) names.add(name);
+    });
+
+    const sortedNames = Array.from(names).sort();
+
+    ["classSelect", "historyClass"].forEach(function(id) {
+        const select = document.getElementById(id);
+
+        select.innerHTML = "";
+
+        addOption(select, "", "Choose Class");
+
+        sortedNames.forEach(function(name) {
+            addOption(select, name, name);
+        });
+    });
+}
+
+function getAttendanceFor(date, className) {
+    return readRecords(ATTENDANCE_KEY).filter(function(item) {
+        return item.date === date &&
+            item.className === className;
+    });
+}
+
+function updateSummary() {
+    const rows = document.querySelectorAll(
+        "#attendanceTable tr[data-admission]"
+    );
+
+    let present = 0;
+    let absent = 0;
+    let late = 0;
+
+    rows.forEach(function(row) {
+        const status = row.querySelector("select").value;
+
+        if (status === "Present") present++;
+        if (status === "Absent") absent++;
+        if (status === "Late") late++;
+    });
+
+    document.getElementById("totalCount").textContent =
+        rows.length;
+
+    document.getElementById("presentCount").textContent =
+        present;
+
+    document.getElementById("absentCount").textContent =
+        absent;
+
+    document.getElementById("lateCount").textContent =
+        late;
+}
+
+function loadStudents() {
+    const className =
+        document.getElementById("classSelect").value;
+
+    const date =
+        document.getElementById("attendanceDate").value;
+
+    const tbody = document.getElementById("attendanceTable");
+
+    tbody.innerHTML = "";
+    currentStudents = [];
+
+    if (!className || !date) {
+        tbody.innerHTML =
+            '<tr><td colspan="5" class="empty">' +
+            'Please select a class and date.</td></tr>';
+
+        updateSummary();
+        return;
+    }
+
+    const students = readRecords(STUDENTS_KEY).filter(function(item) {
+        return clean(item.studentClass || item.className) === className;
+    });
+
+    students.sort(function(a, b) {
+        return clean(a.fullName).localeCompare(clean(b.fullName));
+    });
+
+    const savedRecords = getAttendanceFor(date, className);
+
+    if (students.length === 0) {
+        tbody.innerHTML =
+            '<tr><td colspan="5" class="empty">' +
+            'No registered students were found in this class.' +
+            '</td></tr>';
+
+        updateSummary();
+        return;
+    }
+
+    students.forEach(function(student, index) {
+        const admission = clean(
+            student.admissionNumber || student.admissionNo
+        );
+
+        const name = clean(student.fullName);
+
+        const saved = savedRecords.find(function(record) {
+            return clean(record.admissionNumber) === admission;
+        });
+
+        const status = saved ? saved.status : "Present";
+
+        currentStudents.push(student);
+
+        const row = document.createElement("tr");
+        row.dataset.admission = admission;
+
+        const numberCell = document.createElement("td");
+        numberCell.textContent = index + 1;
+        row.appendChild(numberCell);
+
+        const admissionCell = document.createElement("td");
+        admissionCell.textContent = admission;
+        row.appendChild(admissionCell);
+
+        const nameCell = document.createElement("td");
+        nameCell.textContent = name;
+        row.appendChild(nameCell);
+
+        const classCell = document.createElement("td");
+        classCell.textContent = className;
+        row.appendChild(classCell);
+
+        const statusCell = document.createElement("td");
+        const select = document.createElement("select");
+
+        select.className = "status-select";
+        select.setAttribute("aria-label", "Attendance status for " + name);
+
+        ["Present", "Absent", "Late"].forEach(function(optionValue) {
+            addOption(select, optionValue, optionValue);
+        });
+
+        select.value = status;
+
+        select.addEventListener("change", updateSummary);
+
+        statusCell.appendChild(select);
+        row.appendChild(statusCell);
+
+        tbody.appendChild(row);
+    });
+
+    updateSummary();
+
+    showMessage(
+        students.length + " student(s) loaded for " +
+        className + " on " + date + ".",
+        true
+    );
+}
+
+function saveAttendance() {
+    const className =
+        document.getElementById("classSelect").value;
+
+    const date =
+        document.getElementById("attendanceDate").value;
+
+    if (!className || !date) {
+        showMessage("Please select a class and date.", false);
+        return;
+    }
+
+    const rows = document.querySelectorAll(
+        "#attendanceTable tr[data-admission]"
+    );
+
+    if (rows.length === 0) {
+        showMessage("Load the students before saving attendance.", false);
+        return;
+    }
+
+    const allRecords = readRecords(ATTENDANCE_KEY);
+
+    const newRecords = Array.from(rows).map(function(row) {
+        const admission = row.dataset.admission;
+        const student = currentStudents.find(function(item) {
+            return clean(item.admissionNumber || item.admissionNo) ===
+                admission;
+        });
+
+        return {
+            date: date,
+            className: className,
+            admissionNumber: admission,
+            fullName: student ? clean(student.fullName) : "",
+            status: row.querySelector("select").value,
+            updatedAt: new Date().toISOString()
+        };
+    });
+
+    const updatedRecords = allRecords.filter(function(record) {
+        return !(record.date === date &&
+            record.className === className);
+    });
+
+    updatedRecords.push.apply(updatedRecords, newRecords);
+
+    try {
+        localStorage.setItem(
+            ATTENDANCE_KEY,
+            JSON.stringify(updatedRecords)
+        );
+
+        showMessage(
+            "Attendance saved successfully for " +
+            newRecords.length + " student(s).",
+            true
+        );
+
+        updateSummary();
+    } catch (error) {
+        showMessage(
+            "Attendance could not be saved in this browser.",
+            false
+        );
+    }
+}
+
+function markAllPresent() {
+    document.querySelectorAll(
+        "#attendanceTable tr[data-admission] select"
+    ).forEach(function(select) {
+        select.value = "Present";
+    });
+
+    updateSummary();
+}
+
+function viewHistory() {
+    const date = document.getElementById("historyDate").value;
+    const className = document.getElementById("historyClass").value;
+
+    const tbody = document.getElementById("historyTable");
+    tbody.innerHTML = "";
+
+    if (!date || !className) {
+        tbody.innerHTML =
+            '<tr><td colspan="5" class="empty">' +
+            'Please choose a date and class.' +
+            '</td></tr>';
+        return;
+    }
+
+    const records = getAttendanceFor(date, className);
+
+    if (records.length === 0) {
+        tbody.innerHTML =
+            '<tr><td colspan="5" class="empty">' +
+            'No saved attendance records for this date and class.' +
+            '</td></tr>';
+        return;
+    }
+
+    records.sort(function(a, b) {
+        return clean(a.fullName).localeCompare(clean(b.fullName));
+    });
+
+    records.forEach(function(record) {
+        const row = document.createElement("tr");
+
+        [
+            record.admissionNumber,
+            record.fullName,
+            record.className,
+            record.date,
+            record.status
+        ].forEach(function(value) {
+            const cell = document.createElement("td");
+            cell.textContent = value || "";
+            row.appendChild(cell);
+        });
+
+        tbody.appendChild(row);
+    });
+}
+
+document.getElementById("loadButton").addEventListener(
+    "click",
+    loadStudents
+);
+
+document.getElementById("classSelect").addEventListener(
+    "change",
+    loadStudents
+);
+
+document.getElementById("attendanceDate").addEventListener(
+    "change",
+    loadStudents
+);
+
+document.getElementById("todayButton").addEventListener(
+    "click",
+    function() {
+        document.getElementById("attendanceDate").value =
+            localDateString();
+
+        loadStudents();
+    }
+);
+
+document.getElementById("markAllPresent").addEventListener(
+    "click",
+    markAllPresent
+);
+
+document.getElementById("saveButton").addEventListener(
+    "click",
+    saveAttendance
+);
+
+document.getElementById("printButton").addEventListener(
+    "click",
+    function() {
+        window.print();
+    }
+);
+
+document.getElementById("viewHistory").addEventListener(
+    "click",
+    viewHistory
+);
+
+document.getElementById("historyDate").value = localDateString();
+document.getElementById("attendanceDate").value = localDateString();
+
+loadClassOptions();
+</script>
+
+</body>
+</html>
