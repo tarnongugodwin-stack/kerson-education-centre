@@ -235,31 +235,52 @@
     </footer>
 
     <script>
-        document.getElementById("year").textContent =
-            new Date().getFullYear();
+document.getElementById("year").textContent =
+    new Date().getFullYear();
 
-        const passwordInput = document.getElementById("password");
-        const togglePassword = document.getElementById("togglePassword");
+const passwordInput = document.getElementById("password");
+const togglePassword = document.getElementById("togglePassword");
 
-        togglePassword.addEventListener("click", function () {
-            const isHidden = passwordInput.type === "password";
+togglePassword.addEventListener("click", function () {
+    const isHidden = passwordInput.type === "password";
 
-            passwordInput.type = isHidden ? "text" : "password";
-            togglePassword.textContent = isHidden ? "Hide" : "Show";
-        });
+    passwordInput.type = isHidden ? "text" : "password";
+    togglePassword.textContent = isHidden ? "Hide" : "Show";
+});
 
-        document.getElementById("teacherLoginForm")
-            .addEventListener("submit", function (event) {
-                event.preventDefault();
+document.getElementById("teacherLoginForm")
+    .addEventListener("submit", function (event) {
+        event.preventDefault();
 
-                const message = document.getElementById("loginMessage");
+        const username = document
+            .getElementById("teacherId")
+            .value.trim();
 
-                message.textContent =
-                    "Teacher authentication is not connected yet. Please try again after setup.";
+        const password = passwordInput.value;
 
-                message.style.color = "#b45309";
-            });
-    </script>
+        const message = document.getElementById("loginMessage");
+
+        if (username === "teacher" &&
+            password === "Kerson@2026") {
+
+            sessionStorage.setItem(
+                "kersonCurrentTeacherId",
+                "teacher"
+            );
+
+            message.textContent = "Login successful. Opening dashboard...";
+            message.style.color = "#15803d";
+
+            window.location.href = "teacher-dashboard.html";
+
+        } else {
+            message.textContent =
+                "Incorrect username or password. Please try again.";
+
+            message.style.color = "#dc2626";
+        }
+    });
+</script>
 
 </body>
 </html>
