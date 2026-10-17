@@ -581,7 +581,84 @@ function unique(values) {
         return clean(value) !== "";
     }))].sort();
 }
+function getCommentStorageKey() {
+    const admission = document.getElementById("studentSelect").value;
+    const term = document.getElementById("termSelect").value;
+    const year = document.getElementById("yearSelect").value;
 
+    return "kersonReportComments_" +
+        JSON.stringify([admission, term, year]);
+}
+
+function saveReportComments() {
+    const admission = document.getElementById("studentSelect").value;
+    const term = document.getElementById("termSelect").value;
+    const year = document.getElementById("yearSelect").value;
+    const message = document.getElementById("commentMessage");
+
+    if (!admission || !term || !year) {
+        message.textContent =
+            "Please select a student, term and academic year first.";
+        message.style.color = "#b42318";
+        return;
+    }
+
+    const comments = {
+        teacher: document.getElementById("teacherCommentInput").value.trim(),
+        principal: document.getElementById("principalCommentInput").value.trim()
+    };
+
+    try {
+        localStorage.setItem(
+            getCommentStorageKey(),
+            JSON.stringify(comments)
+        );
+
+        document.getElementById("teacherComment").textContent =
+            comments.teacher || "No teacher's comment entered.";
+
+        document.getElementById("principalComment").textContent =
+            comments.principal || "No principal's comment entered.";
+
+        message.textContent = "Comments saved successfully!";
+        message.style.color = "#176b32";
+    } catch (error) {
+        message.textContent =
+            "Unable to save comments in this browser.";
+        message.style.color = "#b42318";
+    }
+}
+
+function loadReportComments() {
+    let comments = {
+        teacher: "",
+        principal: ""
+    };
+
+    try {
+        comments = JSON.parse(
+            localStorage.getItem(getCommentStorageKey()) ||
+            '{"teacher":"","principal":""}'
+        );
+    } catch (error) {
+        comments = {
+            teacher: "",
+            principal: ""
+        };
+    }
+
+    document.getElementById("teacherCommentInput").value =
+        comments.teacher || "";
+
+    document.getElementById("principalCommentInput").value =
+        comments.principal || "";
+
+    document.getElementById("teacherComment").textContent =
+        comments.teacher || "No teacher's comment entered.";
+
+    document.getElementById("principalComment").textContent =
+        comments.principal || "No principal's comment entered.";
+}
 function loadClasses() {
     const results = readResults();
     const select = document.getElementById("classSelect");
