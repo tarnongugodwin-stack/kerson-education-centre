@@ -830,6 +830,64 @@ loadClasses();
         font-size: 15px;
     }
 } 
+    .comments-section {
+    margin-top: 25px;
+    padding: 18px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    page-break-inside: avoid;
+}
+
+.comments-section h3 {
+    color: #123b6d;
+    font-size: 15px;
+    margin-bottom: 12px;
+    border-bottom: 2px solid #d4a017;
+    padding-bottom: 8px;
+}
+
+.comment-box {
+    min-height: 55px;
+    padding: 12px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    overflow-wrap: anywhere;
+}
+
+.signature-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 25px;
+    text-align: center;
+}
+
+.signature-row > div {
+    flex: 1;
+}
+
+.signature-row p {
+    margin-bottom: 8px;
+}
+
+.signature-row strong {
+    font-size: 12px;
+}
+
+@media print {
+    .comments-section {
+        break-inside: avoid;
+    }
+}
+
+@media (max-width: 500px) {
+    .signature-row {
+        flex-direction: column;
+        gap: 25px;
+    }
+}
 </script>
 
 </body>
