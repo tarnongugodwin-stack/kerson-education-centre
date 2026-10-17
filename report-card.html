@@ -875,7 +875,8 @@ function generateReport() {
                 <td>${escapeHTML(item.status)}</td>
             </tr>`;
         }).join("");
-
+loadReportComments();
+    
     document.getElementById("report").style.display = "block";
 
     message.textContent = "Report card generated successfully.";
