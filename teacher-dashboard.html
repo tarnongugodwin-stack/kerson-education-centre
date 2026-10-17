@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard | KERSON Education Center</title>
+    <link rel="stylesheet" href="Css/style.css">
+
+    <style>
+        body {
+            margin: 0;
+            background: #f3f6fb;
+            font-family: Arial, sans-serif;
+        }
+
+        .header {
+            background: #123b72;
+            color: white;
+            padding: 18px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .header h2 {
+            margin: 0;
+            color: white;
+        }
+
+        .header span {
+            color: #f4b400;
+        }
+
+        .header a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 230px minmax(0, 1fr);
+            min-height: calc(100vh - 65px);
+        }
+
+        .sidebar {
+            background: white;
+            padding: 22px 15px;
+            border-right: 1px solid #e2e8f0;
+        }
+
+        .sidebar h3 {
+            color: #64748b;
+            font-size: 0.85rem;
+            margin: 0 10px 15px;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 13px 10px;
+            margin-bottom: 5px;
+            color: #334155;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #e9f0fb;
+            color: #123b72;
+        }
+
+        main {
+            padding: 28px;
+            min-width: 0;
+        }
+
+        .welcome {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .welcome h1 {
+            color: #123b72;
+            margin: 0 0 8px;
+        }
+
+        .welcome p {
+            color: #64748b;
+            margin: 0;
+        }
+
+        .date-box {
+            background: white;
+            padding: 12px 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 7px;
+        }
+
+        .profile {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 22px;
+            margin-bottom: 25px;
+        }
+
+        .profile h2 {
+            color: #123b72;
+            margin-top: 0;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 15px;
+        }
+
+        .profile-item {
+            background: #f8faff;
+            padding: 13px;
+            border-radius: 6px;
+            overflow-wrap: anywhere;
+        }
+
+        .profile-item small {
+            display: block;
+            color: #64748b;
+            margin-bottom: 7px;
+        }
+
+        .profile-item strong {
+            color: #123b72;
+        }
+
+        .section-title {
+            color: #123b72;
+            margin-bottom: 18px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .feature {
+            display: block;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 22px;
+            text-decoration: none;
+            color: #334155;
+            transition: 0.2s;
+        }
+
+        .feature:hover {
+            border-color: #123b72;
+            transform: translateY(-2px);
+        }
+
+        .feature-icon {
+            display: block;
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .feature h3 {
+            color: #123b72;
+            margin: 0 0 9px;
+            font-size: 1.05rem;
+        }
+
+        .feature p {
+            color: #64748b;
+            line-height: 1.5;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .notice {
+            margin-top: 25px;
+            background: #fff8e1;
+            border-left: 4px solid #f4b400;
+            border-radius: 5px;
+            padding: 15px;
+            color: #624b00;
+            line-height: 1.5;
+        }
+
+        footer {
+            text-align: center;
+            color: #64748b;
+            font-size: 0.85rem;
+            padding: 25px 10px;
+        }
+
+        @media (max-width: 950px) {
+            .features {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .profile-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 650px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                padding: 12px;
+                border-right: none;
+                border-bottom: 1px solid #e2e8f0;
+            }
+
+            .sidebar nav {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+
+            .sidebar a {
+                padding: 9px;
+                margin: 0;
+                font-size: 0.85rem;
+            }
+
+            main {
+                padding: 20px 4%;
+            }
+
+            .features,
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .welcome h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+    <h2>KERSON <span>TEACHER PORTAL</span></h2>
+    <a href="index.html" id="logoutBtn">Logout</a>
+</header>
+
+<div class="layout">
+
+    <aside class="sidebar">
+        <h3>TEACHER MENU</h3>
+
+        <nav>
+            <a href="teacher-dashboard.html" class="active">
+                🏠 Dashboard
+            </a>
+
+            <a href="#teacherProfile">
+                👨‍🏫 My Profile
+            </a>
+
+            <a href="#myClasses">
+                🏫 My Classes
+            </a>
+
+            <a href="attendance.html">
+                📅 Attendance
+            </a>
+
+            <a href="results.html">
+                📝 Enter Results
+            </a>
+
+            <a href="results.html">
+                🧮 Automatic Grading
+            </a>
+
+            <a href="report-card.html">
+                📊 Student Results
+            </a>
+
+            <a href="admin-login.html">
+                🔐 Admin Portal
+            </a>
+        </nav>
+    </aside>
+
+    <main>
+
+        <div class="welcome">
+            <div>
+                <h1>Teacher Dashboard</h1>
+                <p>Welcome to the KERSON Education Center Teachers Portal.</p>
+            </div>
+
+            <div class="date-box" id="currentDate"></div>
+        </div>
+
+        <section class="profile" id="teacherProfile">
+            <h2>👨‍🏫 Teacher Profile</h2>
+
+            <div class="profile-grid">
+                <div class="profile-item">
+                    <small>Full Name</small>
+                    <strong id="teacherName">Teacher</strong>
+                </div>
+
+                <div class="profile-item">
+                    <small>Teacher ID</small>
+                    <strong id="teacherId">Not selected</strong>
+                </div>
+
+                <div class="profile-item">
+                    <small>Subject</small>
+                    <strong id="teacherSubject">Not specified</strong>
+                </div>
+
+                <div class="profile-item">
+                    <small>Phone Number</small>
+                    <strong id="teacherPhone">Not specified</strong>
+                </div>
+
+                <div class="profile-item">
+                    <small>Email Address</small>
+                    <strong id="teacherEmail">Not specified</strong>
+                </div>
+
+                <div class="profile-item">
+                    <small>Assigned Classes</small>
+                    <strong id="teacherClassCount">0</strong>
+                </div>
+            </div>
+        </section>
+
+        <section id="myClasses">
+            <h2 class="section-title">🏫 My Classes</h2>
+
+            <div class="profile">
+                <p id="classMessage">
+                    Class information will appear here when teacher
+                    assignments are available.
+                </p>
+
+                <div class="table-wrap" style="overflow-x:auto;">
+                    <table style="width:100%;border-collapse:collapse;">
+                        <thead>
+                            <tr style="background:#123b72;color:white;">
+                                <th style="padding:12px;text-align:left;">Class</th>
+                                <th style="padding:12px;text-align:left;">Class Teacher</th>
+                            </tr>
+                        </thead>
+                        <tbody id="classesTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Portal Features</h2>
+
+            <div class="features">
+
+                <a href="#teacherProfile" class="feature">
+                    <span class="feature-icon">👨‍🏫</span>
+                    <h3>My Profile</h3>
+                    <p>View your teacher details, subject, and contact information.</p>
+                </a>
+
+                <a href="#myClasses" class="feature">
+                    <span class="feature-icon">🏫</span>
+                    <h3>My Classes</h3>
+                    <p>Review the classes available in the school records.</p>
+                </a>
+
+                <a href="attendance.html" class="feature">
+                    <span class="feature-icon">📅</span>
+                    <h3>Student Attendance</h3>
+                    <p>Open the attendance management page.</p>
+                </a>
+
+                <a href="results.html" class="feature">
+                    <span class="feature-icon">📝</span>
+                    <h3>Enter Results</h3>
+                    <p>Open the student results page to record scores.</p>
+                </a>
+
+                <a href="results.html" class="feature">
+                    <span class="feature-icon">🧮</span>
+                    <h3>Automatic Grading</h3>
+                    <p>Use the existing result system to calculate grades.</p>
+                </a>
+
+                <a href="report-card.html" class="feature">
+                    <span class="feature-icon">📊</span>
+                    <h3>Student Results</h3>
+                    <p>Open student report cards for viewing and printing.</p>
+                </a>
+
+            </div>
+        </section>
+
+        <div class="notice">
+            <strong>Important:</strong> This dashboard currently displays
+            records stored in this browser. Secure teacher sign-in and
+            shared access to student records require a backend database.
+            Do not use this demonstration dashboard as a security boundary
+            for confidential student information.
+        </div>
+
+        <footer>
+            &copy; <span id="year"></span>
+            KERSON Education Center, Atonko, Gboko.
+            All rights reserved.
+        </footer>
+
+    </main>
+</div>
+
+<script>
+document.getElementById("year").textContent =
+    new Date().getFullYear();
+
+document.getElementById("currentDate").textContent =
+    new Date().toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+    });
+
+function getRecords(key) {
+    try {
+        const records = JSON.parse(localStorage.getItem(key) || "[]");
+        return Array.isArray(records) ? records : [];
+    } catch (error) {
+        return [];
+    }
+}
+
+function displayTeacher() {
+    const teachers = getRecords("kersonTeachers");
+
+    /*
+      This is a demonstration selection only.
+      A secure login system must identify the signed-in teacher
+      on the server rather than trusting browser storage.
+    */
+    const selectedId = sessionStorage.getItem("kersonCurrentTeacherId");
+
+    let teacher = null;
+
+    if (selectedId) {
+        teacher = teachers.find(function(item) {
+            return String(item.teacherId || item.id || "") === selectedId;
+        });
+    }
+
+    if (!teacher && teachers.length > 0) {
+        teacher = teachers[0];
+    }
+
+    if (!teacher) {
+        document.getElementById("teacherName").textContent =
+            "No teacher record found";
+
+        document.getElementById("classMessage").textContent =
+            "Please add teacher records through the Admin Portal first.";
+
+        return;
+    }
+
+    document.getElementById("teacherName").textContent =
+        teacher.fullName || teacher.name || "Teacher";
+
+    document.getElementById("teacherId").textContent =
+        teacher.teacherId || teacher.id || "Not specified";
+
+    document.getElementById("teacherSubject").textContent =
+        teacher.subject || teacher.subjectName || "Not specified";
+
+    document.getElementById("teacherPhone").textContent =
+        teacher.phone || teacher.phoneNumber || "Not specified";
+
+    document.getElementById("teacherEmail").textContent =
+        teacher.email || teacher.emailAddress || "Not specified";
+
+    const classes = getRecords("kersonClasses");
+
+    const assignedClasses = classes.filter(function(item) {
+        const assignedTeacher =
+            item.teacherId || item.classTeacherId || "";
+
+        const teacherId = String(
+            teacher.teacherId || teacher.id || ""
+        );
+
+        const teacherName = String(
+            teacher.fullName || teacher.name || ""
+        );
+
+        return String(assignedTeacher) === teacherId ||
+               String(item.classTeacher || "") === teacherName ||
+               String(item.teacherName || "") === teacherName;
+    });
+
+    document.getElementById("teacherClassCount").textContent =
+        assignedClasses.length;
+
+    const table = document.getElementById("classesTable");
+    table.innerHTML = "";
+
+    assignedClasses.forEach(function(item) {
+        const row = document.createElement("tr");
+
+        const classCell = document.createElement("td");
+        classCell.textContent =
+            item.className || item.name || "Unnamed class";
+        classCell.style.padding = "12px";
+        classCell.style.borderBottom = "1px solid #e2e8f0";
+
+        const teacherCell = document.createElement("td");
+        teacherCell.textContent =
+            item.classTeacher || item.teacherName ||
+            teacher.fullName || teacher.name || "Not specified";
+        teacherCell.style.padding = "12px";
+        teacherCell.style.borderBottom = "1px solid #e2e8f0";
+
+        row.appendChild(classCell);
+        row.appendChild(teacherCell);
+        table.appendChild(row);
+    });
+
+    document.getElementById("classMessage").textContent =
+        assignedClasses.length > 0
+            ? "Your assigned classes are listed below."
+            : "No assigned classes were found for this teacher. " +
+              "Check the class teacher assignments in the Admin Portal.";
+}
+
+document.getElementById("logoutBtn").addEventListener(
+    "click",
+    function(event) {
+        event.preventDefault();
+        sessionStorage.removeItem("kersonCurrentTeacherId");
+        window.location.href = "teacher-login.html";
+    }
+);
+
+displayTeacher();
+</script>
+
+</body>
+</html>
