@@ -498,24 +498,30 @@ function displayTeacher() {
         teacher.email || teacher.emailAddress || "Not specified";
 
     const classes = getRecords("kersonClasses");
-
     const assignedClasses = classes.filter(function(item) {
-        const assignedTeacher =
-            item.teacherId || item.classTeacherId || "";
+    const assignedTeacherId = String(item.classTeacherId || "");
 
-        const teacherId = String(
-            teacher.teacherId || teacher.id || ""
-        );
+    const currentTeacherRecordId = String(teacher.id || "");
+    const currentTeacherId = String(teacher.teacherId || "");
 
-        const teacherName = String(
-            teacher.fullName || teacher.name || ""
-        );
+    const currentTeacherName = String(
+        teacher.fullName || teacher.name || ""
+    ).trim().toLowerCase();
 
-        return String(assignedTeacher) === teacherId ||
-               String(item.classTeacher || "") === teacherName ||
-               String(item.teacherName || "") === teacherName;
-    });
+    const assignedTeacherName = String(
+        item.classTeacher || item.teacherName || ""
+    ).trim().toLowerCase();
 
+    return (
+        (assignedTeacherId !== "" &&
+         (
+             assignedTeacherId === currentTeacherRecordId ||
+             assignedTeacherId === currentTeacherId
+         )) ||
+        (currentTeacherName !== "" &&
+         assignedTeacherName === currentTeacherName)
+    );
+});
     document.getElementById("teacherClassCount").textContent =
         assignedClasses.length;
 
