@@ -411,3 +411,65 @@ nav a:hover {
     object-fit: cover;
     border-radius: 16px;
 }
+.school-gallery {
+    padding: 60px 20px;
+    background: #f5f7fb;
+    text-align: center;
+}
+
+.school-gallery h2 {
+    color: #123b72;
+    font-size: 32px;
+    margin: 10px 0 15px;
+}
+
+.gallery-intro {
+    max-width: 650px;
+    margin: 0 auto 30px;
+    line-height: 1.7;
+    color: #555;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.gallery-item {
+    margin: 0;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.gallery-item img {
+    display: block;
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+}
+
+.gallery-item figcaption {
+    padding: 16px;
+    color: #123b72;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+@media (max-width: 600px) {
+    .school-gallery {
+        padding: 40px 15px;
+    }
+
+    .school-gallery h2 {
+        font-size: 26px;
+    }
+
+    .gallery-item img {
+        height: 230px;
+    }
+}
