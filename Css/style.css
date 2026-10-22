@@ -395,3 +395,19 @@ nav a:hover {
         text-align: center;
     }
   }
+.hero-image {
+    width: 100%;
+    max-width: 900px;
+    margin: 30px auto 0;
+    overflow: hidden;
+    border-radius: 16px;
+}
+
+.hero-image img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 480px;
+    object-fit: cover;
+    border-radius: 16px;
+}
