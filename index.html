@@ -195,6 +195,45 @@
     <script>
         document.getElementById("year").textContent = new Date().getFullYear();
     </script>
+<script>
+let galleryCurrentSlide = 0;
+let galleryTimer;
 
+function showGallerySlide(index) {
+    const slides = document.querySelectorAll(".gallery-slide");
+    const dots = document.querySelectorAll(".gallery-dot");
+
+    if (!slides.length) return;
+
+    galleryCurrentSlide = (index + slides.length) % slides.length;
+
+    slides.forEach((slide, i) => {
+        slide.classList.toggle("active", i === galleryCurrentSlide);
+    });
+
+    dots.forEach((dot, i) => {
+        dot.classList.toggle("active", i === galleryCurrentSlide);
+    });
+}
+
+function moveGallerySlide(direction) {
+    showGallerySlide(galleryCurrentSlide + direction);
+    startGalleryTimer();
+}
+
+function startGalleryTimer() {
+    clearInterval(galleryTimer);
+
+    galleryTimer = setInterval(() => {
+        showGallerySlide(galleryCurrentSlide + 1);
+    }, 4000);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    showGallerySlide(0);
+    startGalleryTimer();
+});
+</script>
+    
 </body>
           </html>
