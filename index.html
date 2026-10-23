@@ -76,45 +76,46 @@
             </div>
         </section>
   <section class="school-gallery" id="gallery">
-    <div class="container">
-        <p class="eyebrow">LIFE AT KERSON</p>
+    <div class="gallery-slideshow">
 
-        <h2>Our School Gallery</h2>
-
-        <p class="gallery-intro">
-            A glimpse into the learning, activities, and experiences
-            that make KERSON Education Center special.
-        </p>
-
-        <div class="gallery-grid">
-    <figure class="gallery-item">
-        <img
-            src="IMG-20260627-WA0011.jpg"
-            alt="Pupils participating in a school activity"
-            loading="lazy"
-        >
+    <figure class="gallery-slide active">
+        <img src="IMG-20260627-WA0011.jpg"
+             alt="Pupils participating in a school activity">
         <figcaption>Learning and Growing Together</figcaption>
     </figure>
 
-    <figure class="gallery-item">
-    <img
-        src="kerson%20picture.png"
-        alt="KERSON Education Center"
-        loading="lazy"
-    >
-    <figcaption>Our School, Our Pride</figcaption>
-</figure>
-            
-    <figure class="gallery-item">
-        <img
-            src="IMG-20260627-WA0013.jpg"
-            alt="School activities at KERSON Education Center"
-            loading="lazy"
-        >
+    <figure class="gallery-slide">
+        <img src="IMG-20260627-WA0013.jpg"
+             alt="School activities at KERSON Education Center">
         <figcaption>Life at KERSON</figcaption>
     </figure>
-</div>
+
+    <figure class="gallery-slide">
+        <img src="kerson%20picture.png"
+             alt="KERSON Education Center">
+        <figcaption>Our School, Our Pride</figcaption>
+    </figure>
+
+    <button type="button" class="gallery-prev"
+            onclick="moveGallerySlide(-1)" aria-label="Previous picture">
+        &#10094;
+    </button>
+
+    <button type="button" class="gallery-next"
+            onclick="moveGallerySlide(1)" aria-label="Next picture">
+        &#10095;
+    </button>
+
+    <div class="gallery-dots">
+        <button type="button" class="gallery-dot active"
+                onclick="showGallerySlide(0)" aria-label="Show picture 1"></button>
+        <button type="button" class="gallery-dot"
+                onclick="showGallerySlide(1)" aria-label="Show picture 2"></button>
+        <button type="button" class="gallery-dot"
+                onclick="showGallerySlide(2)" aria-label="Show picture 3"></button>
     </div>
+
+</div>
       </section>      
         <section class="programmes section" id="programmes">
             <div class="container">
